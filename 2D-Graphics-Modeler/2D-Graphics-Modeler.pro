@@ -18,11 +18,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    shape.cpp
+    shape.cpp \
+    triangle.cpp
 
 HEADERS += \
+    ShapeParser.h \
     mainwindow.h \
     shape.h \
+    triangle.h \
     vector.h \
     vectorDoubles.h
 

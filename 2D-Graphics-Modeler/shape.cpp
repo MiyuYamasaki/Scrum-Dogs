@@ -4,91 +4,102 @@ namespace n{
 
     shape::shape()
     {
-        penColor = "blank";
-        penWidth = 0;
-        penStyle = "blank";
-        penCapStyle = "blank";
-        penJointStyle = "blank";
-        brushColor = "blank";
-        brushStyle = "blank";
-        shapeId = 0;
-        shapeType = "blank";
+        shapeID = 0;
         shapeDimensions = nullptr;
+        penWidth = 0;
+        textString = "None";
+        textPointSize = 0;
+        textFontFamily = "None";
     }
 
-    std::string shape::getPenCapStyle()
+   penCapStyle shape::getPenCapStyle()
     {
-        return penCapStyle;
-    }
-    std::string shape::getPenColor()
-    {
-        return penColor;
-    }
-    int shape::getPenWidth()
-    {
-        return penWidth;
-    }
-    std::string shape::getPenStyle()
-    {
-        return penStyle;
-    }
-    std::string shape::getPenJointStyle()
-    {
-       return penJointStyle;
-    }
-    std::string shape::getBrushColor()
-    {
-        return brushColor;
-    }
-    std::string shape::getBrushStyle()
-    {
-        return brushStyle;
-    }
-    int shape::getShapeId()
-    {
-        return shapeId;
-    }
-    vector<int>* shape::getShapeDimensions()
-    {
-        return shapeDimensions;
+        return qPenCapStyle;
     }
 
-  /////////////////////////////////////////////////////////////////////////////
+   penColor shape::getPenColor()
+   {
+       return qPenColor;
+   }
 
-    void shape::setPenCapStyle(std::string style)
-    {
-        penCapStyle = style;
-    }
+   int shape::getPenWidth()
+   {
+       return penWidth;
+   }
 
-    void shape::setPenColor(std::string color)
-    {
-        penColor = color;
-    }
-    void shape::setPenWidth(int width)
-    {
-        penWidth = width;
-    }
-    void shape::setPenStyle(std::string style)
-    {
-        penStyle = style;
-    }
-    void shape::setPenJointStyle(std::string style)
-    {
-        penJointStyle = style;
-    }
-    void shape::setBrushColor(std::string color)
-    {
-        brushColor = color;
-    }
-    void shape::setBrushStyle(std::string style)
-    {
-        brushStyle = style;
-    }
+   penStyle shape::getPenStyle()
+   {
+       return qPenStyle;
+   }
+
+   penJoinStyle shape::getPenJointStyle()
+   {
+       return qPenJoinStyle;
+   }
+
+   brushColor shape::getBrushColor()
+   {
+        return qBrushColor;
+   }
+
+   brushStyle shape::getBrushStyle()
+   {
+       return qBrushStyle;
+   }
+
+   int shape::getShapeId()
+   {
+       return shapeID;
+   }
+
+   vector<double>* shape::getShapeDimensions()
+   {
+       return shapeDimensions;
+   }
+
+///////////////////////////////////////////////////////////////////////////////
+
+   void shape::setPenCapStyle(penCapStyle style)
+   {
+       qPenCapStyle = style;
+   }
+
+   void shape::setPenColor(penColor color)
+   {
+       qPenColor = color;
+   }
+
+   void shape::setPenWidth(int width)
+   {
+       penWidth = width;
+   }
+
+   void shape::setPenStyle(penStyle style)
+   {
+       qPenStyle = style;
+   }
+
+   void shape::setPenJoinStyle(penJoinStyle style)
+   {
+       qPenJoinStyle = style;
+   }
+
+   void shape::setBrushColor(brushColor color)
+   {
+      qBrushColor = color;
+   }
+
+   void shape::setBrushStyle(brushStyle style)
+   {
+       qBrushStyle = style;
+   }
+
     void shape::setShapeId(int iD)
     {
-        shapeId = iD;
+       shapeID = iD;
     }
-    void shape::setShapeDimensions(vector<int> *dim)
+
+    void shape::setShapeDimensions(vector<double> *dim)
     {
         delete shapeDimensions;
         shapeDimensions = dim;
