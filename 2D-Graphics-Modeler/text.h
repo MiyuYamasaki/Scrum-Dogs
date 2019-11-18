@@ -1,11 +1,18 @@
 #ifndef TEXT_H
 #define TEXT_H
 
+#include <QWidget>
+#include "shape.h"
 
-class text
+using namespace n;
+
+class text : public shape
 {
 public:
     text();
+    virtual double getPerimeter();
+    virtual double getArea();
+    virtual ~text() {}
 };
 
-#endif // TEXT_H
+#endif // text_H

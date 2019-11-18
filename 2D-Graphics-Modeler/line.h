@@ -1,11 +1,18 @@
 #ifndef LINE_H
 #define LINE_H
 
+#include <QWidget>
+#include "shape.h"
 
-class line
+using namespace n;
+
+class line : public shape
 {
 public:
     line();
+    virtual double getPerimeter();
+    virtual double getArea();
+    virtual ~line() {}
 };
 
-#endif // LINE_H
+#endif // line_H

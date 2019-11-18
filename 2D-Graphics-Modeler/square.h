@@ -1,11 +1,18 @@
 #ifndef SQUARE_H
 #define SQUARE_H
 
+#include <QWidget>
+#include "shape.h"
 
-class square
+using namespace n;
+
+class square : public shape
 {
 public:
     square();
+    virtual double getPerimeter();
+    virtual double getArea();
+    virtual ~square() {}
 };
 
-#endif // SQUARE_H
+#endif // square_H

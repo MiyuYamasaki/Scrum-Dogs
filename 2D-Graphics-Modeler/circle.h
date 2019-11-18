@@ -1,11 +1,18 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
+#include <QWidget>
+#include "shape.h"
 
-class circle
+using namespace n;
+
+class circle : public shape
 {
 public:
     circle();
+    virtual double getPerimeter();
+    virtual double getArea();
+    virtual ~circle() {}
 };
 
-#endif // CIRCLE_H
+#endif // circle_H
