@@ -1,0 +1,14 @@
+#ifndef LINE_H
+#define LINE_H
+
+#include "shape.h"
+class line
+{
+public:
+line();
+double getArea();
+double getPerimeter();
+~line();
+}
+
+#endif // LINE_H

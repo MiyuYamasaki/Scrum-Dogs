@@ -1,0 +1,16 @@
+#ifndef POLYGON_H
+#define POLYGON_H
+
+#include "shape.h"
+class polygon
+{
+public:
+polygon();
+double getArea();
+double getPerimeter();
+~polygon();
+
+
+
+}
+#endif // POLYGON_H
