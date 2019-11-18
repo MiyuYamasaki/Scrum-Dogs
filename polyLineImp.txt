@@ -1,0 +1,13 @@
+
+#include "polyLine.h"
+polyLine::polyLine()
+	: shape(){}
+double polyLine::getArea()
+{
+	return 0.0;
+}
+double polyLine::getPerimeter
+{
+	return 0.0;
+}
+polyLine::~polyLine(){}

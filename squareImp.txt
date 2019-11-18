@@ -1,0 +1,13 @@
+
+#include "square.h"
+square::square()
+	: shape(){}
+double square::getArea()
+{
+	return 0.0;
+}
+double square::getPerimeter
+{
+	return 0.0;
+}
+square::~square(){}

@@ -1,0 +1,13 @@
+
+#include "text.h"
+text::text()
+	: shape(){}
+double text::getArea()
+{
+	return 0.0;
+}
+double text::getPerimeter
+{
+	return 0.0;
+}
+text::~text(){}

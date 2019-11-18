@@ -1,0 +1,13 @@
+
+#include "rectangle.h"
+rectangle::rectangle()
+	: shape(){}
+double rectangle::getArea()
+{
+	return 0.0;
+}
+double rectangle::getPerimeter
+{
+	return 0.0;
+}
+rectangle::~rectangle(){}
