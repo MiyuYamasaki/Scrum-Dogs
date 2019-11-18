@@ -1,161 +1,170 @@
 #ifndef VECTOR_H
 #define VECTOR_H
+
 #include <algorithm>
+#include <iostream>
+
 namespace n{
-
-template<typename Type>
-class vector
-{
-    /*
-    vector of doubles much like stl vector container
-
-    NOTE: elem[n] is vector component n for all n >= 0 AND n < size_v
-          size_v = the number of items stored in the vector
-          space = the available storage capacity of the vector where size_v <= space
-          if size_v < space there is space for (space - size_v) doubles after elem[size_v-1]
-    */
-
-    int size_v;   // the size
-    Type *elem; // pointer to the elements (or 0)
-    int space;    // number of elements plus number of free slots
-public:
-    vector() : size_v{0}, elem{nullptr}, space{0} {} // default constructor
-
-    explicit vector(int s) : size_v{0}, elem{new Type[s]}, space{s} // alternate constructor
+    template<typename Type>
+    class vector
     {
-        for (int i = 0; i < size_v; ++i)
-            elem[i] = Type(); // elements are initialized
-    }
+        /*
+        vector of doubles much like stl vector container
 
-    vector(const vector &src) : size_v{src.size_v}, elem{new Type[src.size_v]}, space{src.space} // copy constructor
-    {
-        copy(src.elem, src.elem + size_v, elem); // copy elements - std::copy() algorithm
-    }
+        NOTE: elem[n] is vector component n for all n >= 0 AND n < size_v
+              size_v = the number of items stored in the vector
+              space = the available storage capacity of the vector where size_v <= space
+              if size_v < space there is space for (space - size_v) doubles after elem[size_v-1]
+        */
 
-    vector &operator=(const vector &src) // copy assignment
-    {
-        Type *p = new Type[src.size_v];       // allocate new space
-        copy(src.elem, src.elem + src.size_v, p); // copy elements - std::copy() algorithm
-        delete[] elem;                            // deallocate old space
-        elem = p;                                 // now we can reset elem
-        size_v = src.size_v;
-        return *this;  // return a self-reference
-    }
+        int size_v;   // the size
+        Type *elem; // pointer to the elements (or 0)
+        int space;    // number of elements plus number of free slots
+        public:
+            vector() : size_v{0}, elem{nullptr}, space{0} {} // default constructor
 
-    ~vector() {
-        delete[] elem; // destructor
-    }
-
-    Type &operator[](int n) {
-        return elem[n]; // access: return reference
-    }
-
-    const Type &operator[](int n) const {
-        return elem[n];
-    }
-
-    int size() const {
-        return size_v;
-    }
-
-    int capacity() const {
-        return space;
-    }
-
-    void resize(int newsize) // growth
-    // make the vector have newsize elements
-    // initialize each new element with the default value 0.0
-    {
-        reserve(newsize);
-        for (int i = size_v; i < newsize; ++i)
-            elem[i] = 0; // initialize new elements
-        size_v = newsize;
-    }
-
-    void push_back(Type d)
-    // increase vector size by one; initialize the new element with d
-    {
-        if (space == 0)
-            reserve(8);         // start with space for 8 elements
-        else if (size_v == space)
-            reserve(2 * space); // get more space
-        elem[size_v] = d;       // add d at end
-        ++size_v;               // increase the size (size_v is the number of elements)
-    }
-
-    void reserve(int newalloc)
-    {
-        // never decrease allocation
-        // allocate new space
-        if(newalloc > space)
-        {
-            Type* temp = new Type[newalloc];
-            for(int i = 0; i < size_v; i++)
+            explicit vector(int s) : size_v{0}, elem{new Type[s]}, space{s} // alternate constructor
             {
-                temp[i] = elem[i];
+                for (int i = 0; i < size_v; ++i)
+                    elem[i] = Type(); // elements are initialized
             }
-            delete [] elem;
-            elem = temp;
-            space = newalloc;
-        }
-        // copy old elements
-        // deallocate old space
-    }
 
-    using iterator = Type *;
-    using const_iterator = const Type *;
+            vector(const vector &src) : size_v{src.size_v}, elem{new Type[src.size_v]}, space{src.space} // copy constructor
+            {
+                copy(src.elem, src.elem + size_v, elem); // copy elements - std::copy() algorithm
+            }
 
-    iterator begin() // points to first element
-    {
-        if (size_v == 0)
-            return nullptr;
-        return &elem[0];
-    }
+            vector &operator=(const vector &src) // copy assignment
+            {
+                Type *p = new Type[src.size_v];       // allocate new space
+                copy(src.elem, src.elem + src.size_v, p); // copy elements - std::copy() algorithm
+                delete[] elem;                            // deallocate old space
+                elem = p;                                 // now we can reset elem
+                size_v = src.size_v;
+                return *this;  // return a self-reference
+            }
 
-    const_iterator begin() const
-    {
-        if (size_v == 0)
-            return nullptr;
-        return &elem[0];
-    }
+            /*friend std::istream &operator>> (std::istream &is, vector &src)
+            {
+                Type temp;
+                is >> temp;
+                src.push_back(temp);
+            }*/
 
-    iterator end() // points to one beyond the last element
-    {
-        if (size_v == 0)
-            return nullptr;
-        return &elem[size_v];
-    }
+            ~vector() {
+                delete[] elem; // destructor
+            }
 
-    const_iterator end() const
-    {
-        if (size_v == 0)
-            return nullptr;
-        return &elem[size_v];
-    }
+            Type &operator[](int n) {
+                return elem[n]; // access: return reference
+            }
 
-    iterator insert(iterator p, const double &val) // insert a new element val before p
-    {
-        // make sure we have space
+            const Type &operator[](int n) const {
+                return elem[n];
+            }
 
-        // the place to put value
+            int size() const {
+                return size_v;
+            }
 
-        // copy element one position to the right
-        // insert value
+            int capacity() const {
+                return space;
+            }
 
-        return nullptr; // temp remove & replace
-    }
+            void resize(int newsize) // growth
+            // make the vector have newsize elements
+            // initialize each new element with the default value 0.0
+            {
+                reserve(newsize);
+                for (int i = size_v; i < newsize; ++i)
+                    elem[i] = 0; // initialize new elements
+                size_v = newsize;
+            }
 
-    iterator erase(iterator p) // remove element pointed to by p
-    {
-        if (p == end())
-            return p;
-        for (iterator pos = p + 1; pos != end(); ++pos)
-            *(pos - 1) = *pos; // copy element one position to the left
-        //delete (end() - 1);
-        --size_v;
-        return p;
-    }
-};
+            void push_back(Type d)
+            // increase vector size by one; initialize the new element with d
+            {
+                if (space == 0)
+                    reserve(8);         // start with space for 8 elements
+                else if (size_v == space)
+                    reserve(2 * space); // get more space
+                elem[size_v] = d;       // add d at end
+                ++size_v;               // increase the size (size_v is the number of elements)
+            }
+
+            void reserve(int newalloc)
+            {
+                // never decrease allocation
+                // allocate new space
+                if(newalloc > space)
+                {
+                    Type* temp = new Type[newalloc];
+                    for(int i = 0; i < size_v; i++)
+                    {
+                        temp[i] = elem[i];
+                    }
+                    delete [] elem;
+                    elem = temp;
+                    space = newalloc;
+                }
+                // copy old elements
+                // deallocate old space
+            }
+
+            using iterator = Type *;
+            using const_iterator = const Type *;
+
+            iterator begin() // points to first element
+            {
+                if (size_v == 0)
+                    return nullptr;
+                return &elem[0];
+            }
+
+            const_iterator begin() const
+            {
+                if (size_v == 0)
+                    return nullptr;
+                return &elem[0];
+            }
+
+            iterator end() // points to one beyond the last element
+            {
+                if (size_v == 0)
+                    return nullptr;
+                return &elem[size_v];
+            }
+
+            const_iterator end() const
+            {
+                if (size_v == 0)
+                    return nullptr;
+                return &elem[size_v];
+            }
+
+            iterator insert(iterator p, const double &val) // insert a new element val before p
+            {
+                // make sure we have space
+
+                // the place to put value
+
+                // copy element one position to the right
+                // insert value
+
+                return nullptr; // temp remove & replace
+            }
+
+            iterator erase(iterator p) // remove element pointed to by p
+            {
+                if (p == end())
+                    return p;
+                for (iterator pos = p + 1; pos != end(); ++pos)
+                    *(pos - 1) = *pos; // copy element one position to the left
+                //delete (end() - 1);
+                --size_v;
+                return p;
+            }
+    };
 }
 
 #endif // VECTOR_H

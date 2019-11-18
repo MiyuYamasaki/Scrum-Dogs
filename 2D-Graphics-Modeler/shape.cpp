@@ -32,7 +32,7 @@ namespace n{
        return qPenStyle;
    }
 
-   penJoinStyle shape::getPenJointStyle()
+   penJoinStyle shape::getPenJoinStyle()
    {
        return qPenJoinStyle;
    }
