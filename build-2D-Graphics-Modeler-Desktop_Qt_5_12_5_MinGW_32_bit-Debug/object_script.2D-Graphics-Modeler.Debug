@@ -1,0 +1,13 @@
+debug/circle.o
+debug/ellipse.o
+debug/line.o
+debug/main.o
+debug/mainwindow.o
+debug/polygon.o
+debug/polyline.o
+debug/rectangle.o
+debug/shape.o
+debug/shapeParser.o
+debug/square.o
+debug/text.o
+debug/moc_mainwindow.o

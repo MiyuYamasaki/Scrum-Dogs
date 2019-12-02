@@ -33,26 +33,27 @@ class shape
 {
 
 private:
-    int shapeID;
-    shapeType qShapeType;
-    vector<double>* shapeDimensions = nullptr;
-    penColor qPenColor;
-    int penWidth;
-    penStyle qPenStyle;
-    penCapStyle qPenCapStyle;
-    penJoinStyle qPenJoinStyle;
-    brushColor qBrushColor;
-    brushStyle qBrushStyle;
-    std::string textString;
-    textColor qTextColor;
-    textAlignment qTextAlignment;
-    int textPointSize;
-    std::string textFontFamily;
-    textFontStyle qTextFontStyle;
-    textFontWeight qTextFontWeight;
+	int shapeID;
+	shapeType qShapeType;
+	vector<double>* shapeDimensions = nullptr;
+	penColor qPenColor;
+	int penWidth;
+	penStyle qPenStyle;
+	penCapStyle qPenCapStyle;
+	penJoinStyle qPenJoinStyle;
+	brushColor qBrushColor;
+	brushStyle qBrushStyle;
+	std::string textString;
+	textColor qTextColor;
+	textAlignment qTextAlignment;
+	int textPointSize;
+	std::string textFontFamily;
+	textFontStyle qTextFontStyle;
+	textFontWeight qTextFontWeight;
 
 public:
     shape();
+    shape(int, shapeType, vector<double>*, penColor, int, penStyle, penCapStyle, penJoinStyle, brushColor, brushStyle, std::string, textColor, textAlignment, int, std::string, textFontStyle, textFontWeight);
     penCapStyle getPenCapStyle();
     penColor getPenColor();
     int getPenWidth();
@@ -73,10 +74,16 @@ public:
     void setShapeId(int iD);
     void setShapeDimensions(vector<double> *dim);
 
-    virtual double getArea();
-    virtual double getPerimeter();
+    virtual double getArea()
+    {
+        return 0;
+    }
+    virtual double getPerimeter()
+    {
+        return 0;
+    }
 
-   virtual ~shape()
+    virtual ~shape()
     {
         delete shapeDimensions;
     }

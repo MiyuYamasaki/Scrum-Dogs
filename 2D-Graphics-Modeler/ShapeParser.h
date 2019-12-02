@@ -1,3 +1,6 @@
+#ifndef SHAPEPARSER_H
+#define SHAPEPARSER_H
+
 #include <iostream>
 #include <fstream>
 #include "shape.h"
@@ -32,5 +35,7 @@ private:
 
 public:
     shapeParser(); //Constructor
-    vector<shape>* initializeVector();
-}
+    vector<shape>* initializeVector(); //Initial file read-in
+};
+
+#endif

@@ -1,10 +1,30 @@
 #include "shapeParser.h"
+#include "circle.h"
+#include "ellipse.h"
+#include "line.h"
+#include "polygon.h"
+#include "polyline.h"
+#include "rectangle.h"
+#include "square.h"
+#include "text.h"
 #include <map>
+
+using namespace n;
 
 vector<shape>* shapeParser::initializeVector()
 {
     std::string readIn;
     double point;
+    int temp = 0;
+    vector<shape>* tempVector = new vector<shape>;
+    circle* newCircle;
+    ellipse* newEllipse;
+    line* newLine;
+    polygon* newPolygon;
+    polyline* newPolyline;
+    rectangle* newRectangle;
+    square* newSquare;
+    text* newText;
 
     fin.open("shapes.txt");
     while(!fin.eof()) {
@@ -29,9 +49,12 @@ vector<shape>* shapeParser::initializeVector()
                 break;
             shapeDimensions->push_back(point);
         }
-        switch(sType)
+        for(int i = 0; i < 9; i++)
+            if(static_cast<int>(sType) == i)
+                temp = i;
+        switch(temp)
         {
-            case Line:
+            case 0:
                 fin >> trash;
                 fin.clear();
                 getline(fin, readIn);
@@ -60,7 +83,7 @@ vector<shape>* shapeParser::initializeVector()
                     if(readIn == penJoinList[i])
                         pJoinStyle = static_cast<penJoinStyle>(i);
                 break;
-            case Polyline:
+            case 1:
                 fin >> trash;
                 fin.clear();
                 getline(fin, readIn);
@@ -89,48 +112,7 @@ vector<shape>* shapeParser::initializeVector()
                     if(readIn == penJoinList[i])
                         pJoinStyle = static_cast<penJoinStyle>(i);
                 break;
-            case Polygon:
-                fin >> trash;
-                fin.clear();
-                getline(fin, readIn);
-                for(int i = 0; i < 9; i++)
-                    if(readIn == penColorList[i])
-                        pColor = static_cast<penColor>(i);
-                fin >> trash;
-                fin.clear();
-                fin >> pWidth;
-                fin >> trash;
-                fin.clear();
-                getline(fin, readIn);
-                for(int i = 0; i < 6; i++)
-                    if(readIn == penStyleList[i])
-                        pStyle = static_cast<penStyle>(i);
-                fin >> trash;
-                fin.clear();
-                getline(fin, readIn);
-                for(int i = 0; i < 3; i++)
-                    if(readIn == penCapList[i])
-                        pCapStyle = static_cast<penCapStyle>(i);
-                fin >> trash;
-                fin.clear();
-                getline(fin, readIn);
-                for(int i = 0; i < 3; i++)
-                    if(readIn == penJoinList[i])
-                        pJoinStyle = static_cast<penJoinStyle>(i);
-                fin >> trash;
-                fin.clear();
-                getline(fin, readIn);
-                for(int i = 0; i < 9; i++)
-                    if(readIn == brushColorList[i])
-                        bColor = static_cast<brushColor>(i);
-                fin >> trash;
-                fin.clear();
-                getline(fin, readIn);
-                for(int i = 0; i < 4; i++)
-                    if(readIn == brushStyleList[i])
-                        bStyle = static_cast<brushStyle>(i);
-                break;
-            case Rectangle:
+            case 2:
                 fin >> trash;
                 fin.clear();
                 getline(fin, readIn);
@@ -171,7 +153,7 @@ vector<shape>* shapeParser::initializeVector()
                     if(readIn == brushStyleList[i])
                         bStyle = static_cast<brushStyle>(i);
                 break;
-            case Square:
+            case 3:
                 fin >> trash;
                 fin.clear();
                 getline(fin, readIn);
@@ -212,7 +194,7 @@ vector<shape>* shapeParser::initializeVector()
                     if(readIn == brushStyleList[i])
                         bStyle = static_cast<brushStyle>(i);
                 break;
-            case Ellipse:
+            case 4:
                 fin >> trash;
                 fin.clear();
                 getline(fin, readIn);
@@ -253,7 +235,7 @@ vector<shape>* shapeParser::initializeVector()
                     if(readIn == brushStyleList[i])
                         bStyle = static_cast<brushStyle>(i);
                 break;
-            case Circle:
+            case 5:
                 fin >> trash;
                 fin.clear();
                 getline(fin, readIn);
@@ -294,7 +276,48 @@ vector<shape>* shapeParser::initializeVector()
                     if(readIn == brushStyleList[i])
                         bStyle = static_cast<brushStyle>(i);
                 break;
-            case Text:
+            case 6:
+                fin >> trash;
+                fin.clear();
+                getline(fin, readIn);
+                for(int i = 0; i < 9; i++)
+                    if(readIn == penColorList[i])
+                        pColor = static_cast<penColor>(i);
+                fin >> trash;
+                fin.clear();
+                fin >> pWidth;
+                fin >> trash;
+                fin.clear();
+                getline(fin, readIn);
+                for(int i = 0; i < 6; i++)
+                    if(readIn == penStyleList[i])
+                        pStyle = static_cast<penStyle>(i);
+                fin >> trash;
+                fin.clear();
+                getline(fin, readIn);
+                for(int i = 0; i < 3; i++)
+                    if(readIn == penCapList[i])
+                        pCapStyle = static_cast<penCapStyle>(i);
+                fin >> trash;
+                fin.clear();
+                getline(fin, readIn);
+                for(int i = 0; i < 3; i++)
+                    if(readIn == penJoinList[i])
+                        pJoinStyle = static_cast<penJoinStyle>(i);
+                fin >> trash;
+                fin.clear();
+                getline(fin, readIn);
+                for(int i = 0; i < 9; i++)
+                    if(readIn == brushColorList[i])
+                        bColor = static_cast<brushColor>(i);
+                fin >> trash;
+                fin.clear();
+                getline(fin, readIn);
+                for(int i = 0; i < 4; i++)
+                    if(readIn == brushStyleList[i])
+                        bStyle = static_cast<brushStyle>(i);
+                break;
+            case 7:
                 fin >> trash;
                 fin.clear();
                 getline(fin, tString);
