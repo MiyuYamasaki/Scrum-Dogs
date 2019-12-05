@@ -1,0 +1,15 @@
+release/ellipse.o
+release/line.o
+release/main.o
+release/mainwindow.o
+release/polygon.o
+release/polyline.o
+release/rect.o
+release/renderarea.o
+release/shapeparser.o
+release/shapes.o
+release/text.o
+release/window.o
+release/moc_mainwindow.o
+release/moc_renderarea.o
+release/moc_window.o

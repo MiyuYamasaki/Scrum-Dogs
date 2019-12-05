@@ -71,7 +71,7 @@ RenderArea::RenderArea(QWidget *parent)
 //! [1]
 QSize RenderArea::minimumSizeHint() const
 {
-    return QSize(100, 100);
+    return QSize(1000, 500);
 }
 //! [1]
 
@@ -251,9 +251,6 @@ void RenderArea::paintEvent(QPaintEvent * /* event */)
      path.moveTo(20, 80);
      path.lineTo(20, 30);
      path.cubicTo(80, 0, 50, 50, 80, 80);
-
-     int startAngle = 20 * 16;
-     int arcLength = 120 * 16;
  //! [8]
 
  //! [9]
@@ -283,9 +280,6 @@ void RenderArea::paintEvent(QPaintEvent * /* event */)
              case Line:
                  painter.drawLine(rect.bottomLeft(), rect.topRight());
                  break;
-             case Points:
-                 painter.drawPoints(points, 4);
-                 break;
              case Polyline:
                  painter.drawPolyline(points, 4);
                  break;
@@ -295,31 +289,14 @@ void RenderArea::paintEvent(QPaintEvent * /* event */)
              case Rect:
                  painter.drawRect(rect);
                  break;
-             case RoundedRect:
-                 painter.drawRoundedRect(rect, 25, 25, Qt::RelativeSize);
-                 break;
              case Ellipse:
                  painter.drawEllipse(rect);
-                 break;
-             case Arc:
-                 painter.drawArc(rect, startAngle, arcLength);
-                 break;
-             case Chord:
-                 painter.drawChord(rect, startAngle, arcLength);
-                 break;
-             case Pie:
-                 painter.drawPie(rect, startAngle, arcLength);
-                 break;
-             case Path:
-                 painter.drawPath(path);
                  break;
              case Text:
                  painter.drawText(rect,
                                   Qt::AlignCenter,
                                   tr("Qt by\nThe Qt Company"));
                  break;
-             case Pixmap:
-                 painter.drawPixmap(10, 10, pixmap);
              }
  //! [12] //! [13]
              painter.restore();

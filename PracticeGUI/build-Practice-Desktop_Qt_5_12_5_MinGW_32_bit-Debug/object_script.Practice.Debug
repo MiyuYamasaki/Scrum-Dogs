@@ -1,0 +1,15 @@
+debug/ellipse.o
+debug/line.o
+debug/main.o
+debug/mainwindow.o
+debug/polygon.o
+debug/polyline.o
+debug/rect.o
+debug/renderarea.o
+debug/shapeparser.o
+debug/shapes.o
+debug/text.o
+debug/window.o
+debug/moc_mainwindow.o
+debug/moc_renderarea.o
+debug/moc_window.o

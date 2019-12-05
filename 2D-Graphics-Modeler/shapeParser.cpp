@@ -11,6 +11,10 @@
 
 using namespace n;
 
+shapeParser::shapeParser()
+{
+}
+
 vector<shape>* shapeParser::initializeVector()
 {
     std::string readIn;
@@ -82,6 +86,7 @@ vector<shape>* shapeParser::initializeVector()
                 for(int i = 0; i < 3; i++)
                     if(readIn == penJoinList[i])
                         pJoinStyle = static_cast<penJoinStyle>(i);
+                newLine = new line(shapeID, shapeDimensions, pColor, pWidth, pStyle, pCapStyle, pJoinStyle, )
                 break;
             case 1:
                 fin >> trash;
