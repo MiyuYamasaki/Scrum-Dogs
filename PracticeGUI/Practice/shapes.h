@@ -16,8 +16,11 @@ namespace gProject
     class shapes
     {
         public:
+            shapes() { }
             shapes(RenderArea *ra);
+            shapes(const shapes&);
             virtual ~shapes();
+            shapes operator= (const shapes&);
             void set_pen(Qt::GlobalColor, int, Qt::PenStyle, Qt::PenCapStyle, Qt::PenJoinStyle);
             QPen get_pen();
             void set_brush(Qt::GlobalColor, Qt::BrushStyle);

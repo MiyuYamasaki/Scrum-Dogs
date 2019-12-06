@@ -1,7 +1,7 @@
 #include "line.h"
 
 Line::Line(RenderArea *r)
-    :shapes(r)
+    :gProject::shapes(r)
 {
     type = static_cast<Shape>(0);
 }

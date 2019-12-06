@@ -13,6 +13,8 @@ RenderArea::RenderArea(QWidget *parent)
 
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
+    ShapeParser sp;
+    //sList = sp.InitializeVector(this);
 }
 
 QSize RenderArea::minimumSizeHint() const
@@ -94,7 +96,9 @@ void RenderArea::paintEvent(QPaintEvent *)
 
 void RenderArea::closeEvent(QCloseEvent *)
 {
+
     std::ofstream fout;
+    fout.open("shapesOutput.txt");
     vector<gProject::shapes>::iterator first = sList->begin();
     vector<gProject::shapes>::iterator last = sList->end();
 
@@ -129,4 +133,7 @@ void RenderArea::closeEvent(QCloseEvent *)
                 break;
         }
     }
+
+    fout.close();
+
 }

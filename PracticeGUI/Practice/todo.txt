@@ -1,0 +1,11 @@
+Things to Do
+
+Valgrind Check
+	Run separate checks on each piece
+		I.E. Running a driver with vector and different manipulations
+Doxygen
+Updated UML
+Login screen
+Testimonials
+	Dialog where reviews can be entered.
+	Stored in text doc

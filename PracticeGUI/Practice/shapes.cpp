@@ -7,9 +7,28 @@ gProject::shapes::shapes(RenderArea *ra)
     ra->setShape(type);
 }
 
+gProject::shapes::shapes(const shapes& s)
+{
+    this->ShapeID = s.ShapeID;
+    this->type = s.type;
+    this->ra = s.ra;
+    this->pen = s.pen;
+    this->brush = s.brush;
+}
+
 gProject::shapes::~shapes()
 {
 
+}
+
+gProject::shapes gProject::shapes::operator= (const shapes& s)
+{
+    this->ShapeID = s.ShapeID;
+    this->type = s.type;
+    this->ra = s.ra;
+    this->pen = s.pen;
+    this->brush = s.brush;
+    return *this;
 }
 
 void gProject::shapes::set_pen(Qt::GlobalColor c, int i, Qt::PenStyle p, Qt::PenCapStyle pcs, Qt::PenJoinStyle pjs)

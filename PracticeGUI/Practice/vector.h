@@ -80,14 +80,14 @@ template<typename Type>
                 size_v = newsize;
             }
 
-            void push_back(Type d)
+            void push_back(Type *d)
             // increase vector size by one; initialize the new element with d
             {
                 if (space == 0)
                     reserve(8);         // start with space for 8 elements
                 else if (size_v == space)
                     reserve(2 * space); // get more space
-                elem[size_v] = d;       // add d at end
+                elem[size_v] = *d;       // add d at end
                 ++size_v;               // increase the size (size_v is the number of elements)
             }
 

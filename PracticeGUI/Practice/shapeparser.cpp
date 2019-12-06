@@ -4,14 +4,15 @@ ShapeParser::ShapeParser()
 {
 }
 
-vector<shapes>* ShapeParser::InitializeVector(RenderArea* ra)
+vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
 {
-    newVector = new vector<shapes>;
+    newVector = new vector<gProject::shapes>;
     std::ifstream fin;
+    std::ofstream fout;
     std::string trash;
     std::string temp;
     int shapeID;
-    shapes* tempShapes = nullptr;
+    gProject::shapes* tempShape = nullptr;
     Shape type;
     Qt::GlobalColor pColor = Qt::black;
     int pWidth = 0;
@@ -27,6 +28,7 @@ vector<shapes>* ShapeParser::InitializeVector(RenderArea* ra)
     int y;
 
     fin.open("shapes.txt");
+    fout.open("shapesOutput.txt");
     fin >> trash;
     fin >> trash;
     fin >> shapeID;
@@ -39,9 +41,9 @@ vector<shapes>* ShapeParser::InitializeVector(RenderArea* ra)
     fin >> temp;
     pointCount = 0;
     do{
-        x = stoi(temp.substr(0,2));
+        x = std::stoi(temp.substr(0,2));
         fin >> temp;
-        y = stoi(temp.substr(0,2));
+        y = std::stoi(temp.substr(0,2));
         pointCount++;
 
         newPoints = new QPoint[pointCount];
@@ -52,7 +54,7 @@ vector<shapes>* ShapeParser::InitializeVector(RenderArea* ra)
         delete [] oldPoints;
         oldPoints = newPoints;
         fin >> temp;
-    }while(temp != "\n");
+    }while(pointCount != 2);
 
     fin >> trash;
     fin >> temp;
@@ -76,9 +78,10 @@ vector<shapes>* ShapeParser::InitializeVector(RenderArea* ra)
     for(int i = 0; i < 3; i++)
         if(temp == penJoinList[i])
             pjStyle = static_cast<Qt::PenJoinStyle>(i);
-    tempShapes = new class Line(ra);
-    dynamic_cast<class Line*>(tempShapes)->set_points(newPoints);
-    tempShapes->set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+    tempShape = new class Line(ra);
+    dynamic_cast<class Line*>(tempShape)->set_points(newPoints);
+    tempShape->set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+    newVector->push_back(tempShape);
 
     return newVector;
 }

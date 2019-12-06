@@ -12,6 +12,8 @@ Window::Window()
 {
     renderArea = new RenderArea;
 
+    shapeComboBox = new QComboBox;
+
     shapeLabel = new QLabel(tr("&Shape:"));
     shapeLabel->setBuddy(shapeComboBox);
 
