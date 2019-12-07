@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    circle.cpp \
     ellipse.cpp \
     line.cpp \
     main.cpp \
@@ -26,10 +27,12 @@ SOURCES += \
     renderarea.cpp \
     shapeparser.cpp \
     shapes.cpp \
+    square.cpp \
     text.cpp \
     window.cpp
 
 HEADERS += \
+    circle.h \
     ellipse.h \
     line.h \
     mainwindow.h \
@@ -39,6 +42,7 @@ HEADERS += \
     renderarea.h \
     shapeparser.h \
     shapes.h \
+    square.h \
     text.h \
     vector.h \
     window.h

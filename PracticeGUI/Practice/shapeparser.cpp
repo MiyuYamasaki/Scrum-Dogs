@@ -7,81 +7,629 @@ ShapeParser::ShapeParser()
 vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
 {
     newVector = new vector<gProject::shapes>;
-    std::ifstream fin;
+    std::ifstream fin("C:\\Users\\gjyam\\OneDrive\\Desktop\\scrum-dogs\\PracticeGUI\\Practice\\shape.txt");
     std::ofstream fout;
     std::string trash;
+    char trashChar;
     std::string temp;
-    int shapeID;
+    int shapeID = 0;
     gProject::shapes* tempShape = nullptr;
-    Shape type;
+    Shape type = LINE;
     Qt::GlobalColor pColor = Qt::black;
     int pWidth = 0;
     Qt::PenStyle pStyle = Qt::DotLine;
     Qt::PenCapStyle pcStyle = Qt::FlatCap;
     Qt::PenJoinStyle pjStyle = Qt::MiterJoin;
-    //Qt::GlobalColor bColor;
-    //Qt::BrushStyle bStyle;
-    QPoint* oldPoints = nullptr;
-    QPoint* newPoints = nullptr;
-    int pointCount;
-    int x;
-    int y;
+    Qt::GlobalColor bColor = Qt::black;
+    Qt::BrushStyle bStyle = Qt::NoBrush;
+//    QPoint* oldPoints = nullptr;
+    std::vector<QPoint> points;
+    vector<gProject::shapes>::iterator last;
+    int width = 0, length = 0;
+    bool opened = false;
+    int x = 0;
+    int y = 0;
 
-    fin.open("shapes.txt");
     fout.open("shapesOutput.txt");
-    fin >> trash;
-    fin >> trash;
-    fin >> shapeID;
-    fin >> trash;
-    fin >> temp;
-    for(int i = 0; i < 6; i++)
-        if(temp == shapeList[i])
-            type = static_cast<Shape>(i);
-    fin >> trash;
-    fin >> temp;
-    pointCount = 0;
-    do{
-        x = std::stoi(temp.substr(0,2));
-        fin >> temp;
-        y = std::stoi(temp.substr(0,2));
-        pointCount++;
+    if(fin)
+        opened = true;
+    while(fin)
+    {
+        if(fin.eof()) break;
+        fin >> shapeID;
+        fin.ignore(10, '\n');
+        getline(fin, temp);
+        for(int i = 0; i < 8; i++)
+            if(temp.compare(shapeList[i]) == 0)
+            {
+                type = static_cast<Shape>(i);
+                break;
+            }
+        switch(type)
+        {
+        case LINE:
+            points.clear();
+            fin >> x;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            fin >> y;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            points.push_back(QPoint(x, y));
+            fin >> x;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            fin >> y;
+            points.push_back(QPoint(x, y));
+            fin.clear();
+            getline(fin, trash);
+            fin.clear();
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    pColor = static_cast<Qt::GlobalColor>(i + 2);
+                    break;
+                }
+            fin >> pWidth;
+            fin.clear();
+            getline(fin, trash);
+            getline(fin, temp);
+            for(int i = 0; i < 6; i++)
+                if(temp.compare(penStyleList[i]) == 0)
+                {
+                    pStyle = static_cast<Qt::PenStyle>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penCapList[i]) == 0)
+                {
+                    if(i == 0)
+                        pcStyle = Qt::FlatCap;
+                    else if(i == 1)
+                        pcStyle = Qt::SquareCap;
+                    else if(i == 2)
+                        pcStyle = Qt::RoundCap;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penJoinList[i]) == 0)
+                {
+                    if(i == 0)
+                        pjStyle = Qt::MiterJoin;
+                    else if(i == 1)
+                        pjStyle = Qt::BevelJoin;
+                    else if(i == 2)
+                        pjStyle = Qt::RoundJoin;
+                    break;
+                }
+            tempShape = new Line(ra);
+            newVector->push_back(*tempShape);
+            last = newVector->end();
+            last--;
+            (*last).set_ID((shapeID));
+            (*last).set_points(points);
+            (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+            break;
+        case POLYLINE:
+            points.clear();
+            do{
+                fin >> x;
+                fin.get();
+                fin >> y;
+                trashChar = fin.peek();
+                if (trashChar == ',') trashChar = fin.get();
+                points.push_back(QPoint(x, y));
+            }while(trashChar == ',');
 
-        newPoints = new QPoint[pointCount];
-        newPoints[pointCount - 1] = QPoint(x,y);
-        if(pointCount > 1)
-            for(int i = 0; i < pointCount - 1; i++)
-                newPoints[i] = oldPoints[i];
-        delete [] oldPoints;
-        oldPoints = newPoints;
-        fin >> temp;
-    }while(pointCount != 2);
+            fin.clear();
+            getline(fin, trash);
+            fin.clear();
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    pColor = static_cast<Qt::GlobalColor>(i + 2);
+                    break;
+                }
+            fin >> pWidth;
+            fin.clear();
+            getline(fin, trash);
+            getline(fin, temp);
+            for(int i = 0; i < 6; i++)
+                if(temp.compare(penStyleList[i]) == 0)
+                {
+                    pStyle = static_cast<Qt::PenStyle>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penCapList[i]) == 0)
+                {
+                    if(i == 0)
+                        pcStyle = Qt::FlatCap;
+                    else if(i == 1)
+                        pcStyle = Qt::SquareCap;
+                    else if(i == 2)
+                        pcStyle = Qt::RoundCap;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penJoinList[i]) == 0)
+                {
+                    if(i == 0)
+                        pjStyle = Qt::MiterJoin;
+                    else if(i == 1)
+                        pjStyle = Qt::BevelJoin;
+                    else if(i == 2)
+                        pjStyle = Qt::RoundJoin;
+                    break;
+                }
+            tempShape = new Polyline(ra);
+            newVector->push_back(*tempShape);
+            last = newVector->end();
+            last--;
+            (*last).set_ID((shapeID));
+            (*last).set_points(points);
+            (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+            break;
+        case POLYGON:
+            points.clear();
+            do{
+                fin >> x;
+                fin.get();
+                fin >> y;
+                trashChar = fin.peek();
+                if (trashChar == ',') trashChar = fin.get();
+                points.push_back(QPoint(x, y));
+            }while(trashChar == ',');
 
-    fin >> trash;
-    fin >> temp;
-    for(int i = 0; i < 9; i++)
-        if(temp == colorList[i])
-            pColor = static_cast<Qt::GlobalColor>(i);
-    fin >> trash;
-    fin >> pWidth;
-    fin >> trash;
-    fin >> temp;
-    for(int i = 0; i < 6; i++)
-        if(temp == penStyleList[i])
-            pStyle = static_cast<Qt::PenStyle>(i);
-    fin >> trash;
-    fin >> temp;
-    for(int i = 0; i < 3; i++)
-        if(temp == penCapList[i])
-            pcStyle = static_cast<Qt::PenCapStyle>(i);
-    fin >> trash;
-    fin >> temp;
-    for(int i = 0; i < 3; i++)
-        if(temp == penJoinList[i])
-            pjStyle = static_cast<Qt::PenJoinStyle>(i);
-    tempShape = new class Line(ra);
-    dynamic_cast<class Line*>(tempShape)->set_points(newPoints);
-    tempShape->set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
-    newVector->push_back(tempShape);
+            fin.clear();
+            getline(fin, trash);
+            fin.clear();
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    pColor = static_cast<Qt::GlobalColor>(i + 2);
+                    break;
+                }
+            fin >> pWidth;
+            fin.clear();
+            getline(fin, trash);
+            getline(fin, temp);
+            for(int i = 0; i < 6; i++)
+                if(temp.compare(penStyleList[i]) == 0)
+                {
+                    pStyle = static_cast<Qt::PenStyle>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penCapList[i]) == 0)
+                {
+                    if(i == 0)
+                        pcStyle = Qt::FlatCap;
+                    else if(i == 1)
+                        pcStyle = Qt::SquareCap;
+                    else if(i == 2)
+                        pcStyle = Qt::RoundCap;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penJoinList[i]) == 0)
+                {
+                    if(i == 0)
+                        pjStyle = Qt::MiterJoin;
+                    else if(i == 1)
+                        pjStyle = Qt::BevelJoin;
+                    else if(i == 2)
+                        pjStyle = Qt::RoundJoin;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    bColor = static_cast<Qt::GlobalColor>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 4; i++)
+                if(temp.compare(brushStyleList[i]) == 0)
+                {
+                    switch (i)
+                    {
+                    case 0:
+                        bStyle = static_cast<Qt::BrushStyle>(1);
+                        break;
+                    case 1:
+                        bStyle = static_cast<Qt::BrushStyle>(9);
+                        break;
+                    case 2:
+                        bStyle = static_cast<Qt::BrushStyle>(10);
+                        break;
+                    case 3:
+                        bStyle = static_cast<Qt::BrushStyle>(0);
+                        break;
+                    }
+                    break;
+                }
+            tempShape = new Polygon(ra);
+            newVector->push_back(*tempShape);
+            last = newVector->end();
+            last--;
+            (*last).set_ID((shapeID));
+            (*last).set_points(points);
+            (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+            (*last).set_brush(bColor, bStyle);
+            break;
+        case RECTANGLE:
+            points.clear();
+            fin >> x;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            fin >> y;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            points.push_back(QPoint(x, y));
+            fin >> length;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            fin >> width;
+            fin.clear();
+            getline(fin, trash);
+            fin.clear();
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    pColor = static_cast<Qt::GlobalColor>(i + 2);
+                    break;
+                }
+            fin >> pWidth;
+            fin.clear();
+            getline(fin, trash);
+            getline(fin, temp);
+            for(int i = 0; i < 6; i++)
+                if(temp.compare(penStyleList[i]) == 0)
+                {
+                    pStyle = static_cast<Qt::PenStyle>(i);
+                    break;
+                }
+                    getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penCapList[i]) == 0)
+                {
+                    if(i == 0)
+                        pcStyle = Qt::FlatCap;
+                    else if(i == 1)
+                        pcStyle = Qt::SquareCap;
+                    else if(i == 2)
+                        pcStyle = Qt::RoundCap;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penJoinList[i]) == 0)
+                {
+                    if(i == 0)
+                        pjStyle = Qt::MiterJoin;
+                    else if(i == 1)
+                        pjStyle = Qt::BevelJoin;
+                    else if(i == 2)
+                        pjStyle = Qt::RoundJoin;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    bColor = static_cast<Qt::GlobalColor>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 4; i++)
+                if(temp.compare(brushStyleList[i]) == 0)
+                {
+                    switch (i)
+                    {
+                    case 0:
+                        bStyle = static_cast<Qt::BrushStyle>(1);
+                        break;
+                    case 1:
+                        bStyle = static_cast<Qt::BrushStyle>(9);
+                        break;
+                    case 2:
+                        bStyle = static_cast<Qt::BrushStyle>(10);
+                        break;
+                    case 3:
+                        bStyle = static_cast<Qt::BrushStyle>(0);
+                        break;
+                    }
+                }
+            tempShape = new Rect(ra);
+            newVector->push_back(*tempShape);
+            last = newVector->end();
+            last--;
+            (*last).set_ID((shapeID));
+            (*last).set_Rect(QRect(points[0],QSize(width, length)));
+            (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+            (*last).set_brush(bColor, bStyle);
+            break;
+        case SQUARE:
+            points.clear();
+            fin >> x;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            fin >> y;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            points.push_back(QPoint(x, y));
+            fin >> length;
+            width = length;
+            fin.clear();
+            getline(fin, trash);
+            fin.clear();
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    pColor = static_cast<Qt::GlobalColor>(i + 2);
+                    break;
+                }
+            fin >> pWidth;
+            fin.clear();
+            getline(fin, trash);
+            getline(fin, temp);
+            for(int i = 0; i < 6; i++)
+                if(temp.compare(penStyleList[i]) == 0)
+                {
+                    pStyle = static_cast<Qt::PenStyle>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penCapList[i]) == 0)
+                {
+                    if(i == 0)
+                        pcStyle = Qt::FlatCap;
+                    else if(i == 1)
+                        pcStyle = Qt::SquareCap;
+                    else if(i == 2)
+                        pcStyle = Qt::RoundCap;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penJoinList[i]) == 0)
+                {
+                    if(i == 0)
+                        pjStyle = Qt::MiterJoin;
+                    else if(i == 1)
+                        pjStyle = Qt::BevelJoin;
+                    else if(i == 2)
+                        pjStyle = Qt::RoundJoin;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    bColor = static_cast<Qt::GlobalColor>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 4; i++)
+                if(temp.compare(brushStyleList[i]) == 0)
+                {
+                    switch (i)
+                    {
+                    case 0:
+                        bStyle = static_cast<Qt::BrushStyle>(1);
+                        break;
+                    case 1:
+                        bStyle = static_cast<Qt::BrushStyle>(9);
+                        break;
+                    case 2:
+                        bStyle = static_cast<Qt::BrushStyle>(10);
+                        break;
+                    case 3:
+                        bStyle = static_cast<Qt::BrushStyle>(0);
+                        break;
+                    }
+                }
+            tempShape = new Square(ra);
+            newVector->push_back(*tempShape);
+            last = newVector->end();
+            last--;
+            (*last).set_ID((shapeID));
+            (*last).set_Rect(QRect(points[0],QSize(width, length)));
+            (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+            (*last).set_brush(bColor, bStyle);
+            break;
+        case ELLIPSE:
+            points.clear();
+            fin >> x;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            fin >> y;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            points.push_back(QPoint(x, y));
+            fin >> length;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            fin >> width;
+            fin.clear();
+            getline(fin, trash);
+            fin.clear();
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    pColor = static_cast<Qt::GlobalColor>(i + 2);
+                    break;
+                }
+            fin >> pWidth;
+            fin.clear();
+            getline(fin, trash);
+            getline(fin, temp);
+            for(int i = 0; i < 6; i++)
+                if(temp.compare(penStyleList[i]) == 0)
+                {
+                    pStyle = static_cast<Qt::PenStyle>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penCapList[i]) == 0)
+                {
+                    if(i == 0)
+                        pcStyle = Qt::FlatCap;
+                    else if(i == 1)
+                        pcStyle = Qt::SquareCap;
+                    else if(i == 2)
+                        pcStyle = Qt::RoundCap;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penJoinList[i]) == 0)
+                {
+                    if(i == 0)
+                        pjStyle = Qt::MiterJoin;
+                    else if(i == 1)
+                        pjStyle = Qt::BevelJoin;
+                    else if(i == 2)
+                        pjStyle = Qt::RoundJoin;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    bColor = static_cast<Qt::GlobalColor>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 4; i++)
+                if(temp.compare(brushStyleList[i]) == 0)
+                {
+                    switch (i)
+                    {
+                    case 0:
+                        bStyle = static_cast<Qt::BrushStyle>(1);
+                        break;
+                    case 1:
+                        bStyle = static_cast<Qt::BrushStyle>(9);
+                        break;
+                    case 2:
+                        bStyle = static_cast<Qt::BrushStyle>(10);
+                        break;
+                    case 3:
+                        bStyle = static_cast<Qt::BrushStyle>(0);
+                        break;
+                    }
+                }
+            tempShape = new Ellipse(ra);
+            newVector->push_back(*tempShape);
+            last = newVector->end();
+            last--;
+            (*last).set_ID((shapeID));
+            (*last).set_Rect(QRect(points[0],QSize(width, length)));
+            (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+            (*last).set_brush(bColor, bStyle);
+            break;
+        case CIRCLE:
+            points.clear();
+            fin >> x;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            fin >> y;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            points.push_back(QPoint(x, y));
+            fin >> length;
+            width = length;
+            fin.clear();
+            getline(fin, trash);
+            fin.clear();
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    pColor = static_cast<Qt::GlobalColor>(i + 2);
+                    break;
+                }
+            fin >> pWidth;
+            fin.clear();
+            getline(fin, trash);
+            getline(fin, temp);
+            for(int i = 0; i < 6; i++)
+                if(temp.compare(penStyleList[i]) == 0)
+                {
+                    pStyle = static_cast<Qt::PenStyle>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penCapList[i]) == 0)
+                {
+                    if(i == 0)
+                        pcStyle = Qt::FlatCap;
+                    else if(i == 1)
+                        pcStyle = Qt::SquareCap;
+                    else if(i == 2)
+                        pcStyle = Qt::RoundCap;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(penJoinList[i]) == 0)
+                {
+                    if(i == 0)
+                        pjStyle = Qt::MiterJoin;
+                    else if(i == 1)
+                        pjStyle = Qt::BevelJoin;
+                    else if(i == 2)
+                        pjStyle = Qt::RoundJoin;
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    bColor = static_cast<Qt::GlobalColor>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 4; i++)
+                if(temp.compare(brushStyleList[i]) == 0)
+                {
+                    switch (i)
+                    {
+                    case 0:
+                        bStyle = static_cast<Qt::BrushStyle>(1);
+                        break;
+                    case 1:
+                        bStyle = static_cast<Qt::BrushStyle>(9);
+                        break;
+                    case 2:
+                        bStyle = static_cast<Qt::BrushStyle>(10);
+                        break;
+                    case 3:
+                        bStyle = static_cast<Qt::BrushStyle>(0);
+                        break;
+                    }
+                }
+            tempShape = new Circle(ra);
+            newVector->push_back(*tempShape);
+            last = newVector->end();
+            last--;
+            (*last).set_ID((shapeID));
+            (*last).set_Rect(QRect(points[0],QSize(width, length)));
+            (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+            (*last).set_brush(bColor, bStyle);
+            break;
+        case TEXT:
+            break;
+        }
+    }
+
+    fin.close();
+    fout.close();
 
     return newVector;
 }

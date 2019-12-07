@@ -9,9 +9,7 @@ class Polyline : public shapes
 {
     public:
         Polyline(RenderArea *ra);
-        void set_points(QPoint*);
     private:
-        QPoint* points;
 };
 
 #endif // POLYLINE_H

@@ -7,14 +7,14 @@
 RenderArea::RenderArea(QWidget *parent)
     : QWidget(parent)
 {
-    shape = polygon;
+    shape = POLYGON;
     antialiased = false;
     transformed = false;
 
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
     ShapeParser sp;
-    //sList = sp.InitializeVector(this);
+    sList = sp.InitializeVector(this);
 }
 
 QSize RenderArea::minimumSizeHint() const
@@ -62,41 +62,76 @@ void RenderArea::paintEvent(QPaintEvent *)
     QPainter painter(this);
     vector<gProject::shapes>::iterator first = sList->begin();
     vector<gProject::shapes>::iterator last = sList->end();
+    std::vector<QPoint> points;
+
     do{
-        for(int i = 0; i < 6; i++)
-            if((*first).getShape() == i)
-                shape = static_cast<Shape>(i);
+        shape = first->getShape();
         painter.setRenderHint(QPainter::Antialiasing, false);
-        painter.setPen((*first).get_pen());
-        painter.setBrush((*first).get_brush());
+        //painter.setBrush(first->get_brush());
+        points = (*first).get_points();
+        int size = static_cast<int>(points.size());
+        QPoint* arrPoints = new QPoint[size];
         switch(shape)
         {
-            case line:
-                painter.drawLine(QPoint(10, 10), QPoint(100, 100));
+            case LINE:
+                this->setPen(first->get_pen());
+                painter.setPen(first->get_pen());
+                painter.drawLine(QLine(points[0], points[1]));
                 break;
-            case polyline:
-                //painter.drawPolyline(Array of QPoints, # of points);
+            case POLYLINE:
+                this->setPen(first->get_pen());
+                painter.setPen(first->get_pen());
+                for (int i = 0; i < size; i++)
+                    arrPoints[i] = points[i];
+                painter.drawPolyline(arrPoints, size);
                 break;
-            case polygon:
-                //painer.drawPolygon(Array of QPoints, # of points);
+            case POLYGON:
+                this->setPen(first->get_pen());
+                painter.setPen(first->get_pen());
+                painter.setBrush(first->get_brush());
+                for (int i = 0; i < size; i++)
+                    arrPoints[i] = points[i];
+                painter.drawPolygon(arrPoints, size);
                 break;
-            case rectangle:
-                painter.drawRect((*(dynamic_cast<class Rect*>(first))).get_Rect());
+            case RECTANGLE:
+                this->setPen(first->get_pen());
+                painter.setPen(first->get_pen());
+                painter.setBrush(first->get_brush());
+                painter.drawRect((*first).get_Rect());
                 break;
-            case ellipse:
-                painter.drawEllipse((*(dynamic_cast<class Ellipse*>(first))).get_Rect());
+            case SQUARE:
+                this->setPen(first->get_pen());
+                painter.setPen(first->get_pen());
+                painter.setBrush(first->get_brush());
+                painter.drawRect((*first).get_Rect());
                 break;
-            case text:
+            case ELLIPSE:
+                this->setPen(first->get_pen());
+                painter.setPen(first->get_pen());
+                painter.setBrush(first->get_brush());
+                painter.drawEllipse((*first).get_Rect());
+                break;
+            case CIRCLE:
+                this->setPen(first->get_pen());
+                painter.setPen(first->get_pen());
+                painter.setBrush(first->get_brush());
+                painter.drawEllipse((*first).get_Rect());
+                break;
+            case TEXT:
+                this->setPen(first->get_pen());
+                painter.setPen(first->get_pen());
+                painter.setBrush(first->get_brush());
                 painter.drawText((*(dynamic_cast<class Text*>(first))).get_Rect(),Qt::AlignCenter, "Hello");
                 break;
         }
     }while(++first != last);
-    painter.restore();
+    //painter.restore();
 }
+
 
 void RenderArea::closeEvent(QCloseEvent *)
 {
-
+    /*
     std::ofstream fout;
     fout.open("shapesOutput.txt");
     vector<gProject::shapes>::iterator first = sList->begin();
@@ -115,25 +150,25 @@ void RenderArea::closeEvent(QCloseEvent *)
             case polygon:
             case rectangle:
             case ellipse:
-                fout << "BrushColor: " /*<< colorList[(*first).get_brush().color()]*/ << std::endl;
-                fout << "BrushStyle: " /*<< brushStyleList[(*first).get_brush().style()]*/ << std::endl;
+                fout << "BrushColor: " << colorList[(*first).get_brush().color()] << std::endl;
+                fout << "BrushStyle: " << brushStyleList[(*first).get_brush().style()] << std::endl;
             case line:
             case polyline:
-                fout << "PenColor: " /*<< colorList[(*first).get_pen().color()]*/ << std::endl;
+                fout << "PenColor: " << colorList[(*first).get_pen().color()] << std::endl;
                 fout << "PenWidth: " << (*first).get_pen().width();
-                fout << "PenStyle: " /*<< penStyleList[(*first).get_pen().style()]*/ << std::endl;
-                fout << "PenCapStyle: " /*<< penCapList[(*first).get_pen().capStyle()]*/ << std::endl;
-                fout << "PenJoinStyle: " /*<< penJoinList[(*first).get_pen().joinStyle()]*/ << std::endl;
+                fout << "PenStyle: " << penStyleList[(*first).get_pen().style()] << std::endl;
+                fout << "PenCapStyle: " << penCapList[(*first).get_pen().capStyle()] << std::endl;
+                fout << "PenJoinStyle: " << penJoinList[(*first).get_pen().joinStyle()] << std::endl;
                 break;
             case text:
                 //fout << "TextString: " << dynamic_cast<class Text*>(first)->get_Text() << std::endl;
-                //fout << "TextColor: " /*<< colorList[(*first).get_pen().color()]*/ << std::endl;
-                //fout << "TextAlignment: " /*<< alignmentList[dynamic_cast<class Text*>(first)->get_Alignment()]*/ << std::endl;
+                //fout << "TextColor: " << colorList[(*first).get_pen().color()] << std::endl;
+                //fout << "TextAlignment: " << alignmentList[dynamic_cast<class Text*>(first)->get_Alignment()] << std::endl;
                 //fout << "TextPointSize: "
                 break;
         }
     }
 
     fout.close();
-
+    */
 }

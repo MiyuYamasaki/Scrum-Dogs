@@ -3,17 +3,7 @@
 Ellipse::Ellipse(RenderArea *r)
     :shapes(r)
 {
-    type = static_cast<Shape>(4);
-}
-
-void Ellipse::set_Rect(QRect r)
-{
-    outline = r;
-}
-
-QRect Ellipse::get_Rect()
-{
-    return outline;
+    type = static_cast<Shape>(5);
 }
 
 double Ellipse::get_perimeter()

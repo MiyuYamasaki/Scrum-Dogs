@@ -31,6 +31,16 @@ gProject::shapes gProject::shapes::operator= (const shapes& s)
     return *this;
 }
 
+void gProject::shapes::set_points(std::vector<QPoint> p)
+{
+    points = p;
+}
+
+std::vector<QPoint> gProject::shapes::get_points()
+{
+    return points;
+}
+
 void gProject::shapes::set_pen(Qt::GlobalColor c, int i, Qt::PenStyle p, Qt::PenCapStyle pcs, Qt::PenJoinStyle pjs)
 {
     pen = QPen(c, i, p, pcs, pjs);
@@ -64,4 +74,14 @@ void gProject::shapes::set_ID(int id)
 int gProject::shapes::get_ID()
 {
     return ShapeID;
+}
+
+void gProject::shapes::set_Rect(QRect r)
+{
+    outline = r;
+}
+
+QRect gProject::shapes::get_Rect()
+{
+    return outline;
 }

@@ -37,7 +37,7 @@ private:
     QBrush brush;
     bool transformed;
     bool antialiased;
-    vector<gProject::shapes>* sList = new vector<gProject::shapes>;
+    vector<gProject::shapes>* sList = nullptr;
 };
 //! [0]
 

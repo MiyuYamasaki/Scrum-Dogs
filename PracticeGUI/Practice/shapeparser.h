@@ -3,15 +3,17 @@
 
 #include <shapes.h>
 #include <ellipse.h>
+#include <circle.h>
 #include <line.h>
 #include <polyline.h>
 #include <polygon.h>
 #include <rect.h>
+#include <square.h>
 #include <text.h>
 #include <fstream>
 
-static std::string shapeList[] = {"Line", "Polyline", "Polygon", "Rectangle", "Ellipse", "Text"};
-static std::string colorList[] = {"white", "black", "red", "green", "blue", "cyan", "magenta", "yellow", "gray"};
+static std::string shapeList[] = {"Line", "Polyline", "Polygon", "Rectangle", "Square", "Ellipse", "Circle", "Text"};
+static std::string colorList[] = {"black", "white", "darkGray", "gray", "lightGray", "red", "green", "blue", "cyan", "magenta", "yellow"};
 static std::string penCapList[] = {"FlatCap", "SquareCap", "RoundCap"};
 static std::string penJoinList[] = {"MiterJoin", "BevelJoin", "RoundJoin"};
 static std::string penStyleList[] = {"NoPen", "SolidLine", "DashLine", "DotLine", "DashDotLine", "DashDotDotLine"};

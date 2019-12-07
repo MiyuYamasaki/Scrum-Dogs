@@ -9,9 +9,7 @@ class Line : public shapes
 {
     public:
         Line(RenderArea *ra);
-        void set_points(QPoint*);
     private:
-        QPoint* points;
 };
 
 #endif // LINE_H

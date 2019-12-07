@@ -10,6 +10,7 @@ class Polygon : public shapes
     public:
         Polygon(RenderArea *ra);
         void set_points(QPoint*);
+        QPoint* get_points();
         virtual double get_perimeter();
         virtual double get_area();
     private:

@@ -6,7 +6,12 @@ Line::Line(RenderArea *r)
     type = static_cast<Shape>(0);
 }
 
-void Line::set_points(QPoint* points)
+/*void Line::set_points(QPoint* points)
 {
     this->points = points;
 }
+
+QPoint* Line::get_points()
+{
+    return this->points;
+}*/
