@@ -26,6 +26,8 @@ public slots:
     void setBrush(const QBrush &brush);
     void setAntialiased(bool antialiased);
     void setTransformed(bool transformed);
+    void addShape();
+    void deleteShape(gProject::shapes);
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;

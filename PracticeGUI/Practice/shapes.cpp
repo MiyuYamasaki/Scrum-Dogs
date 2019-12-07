@@ -85,3 +85,73 @@ QRect gProject::shapes::get_Rect()
 {
     return outline;
 }
+
+void gProject::shapes::set_Alignment(Qt::AlignmentFlag a)
+{
+    alignment = a;
+}
+
+Qt::AlignmentFlag gProject::shapes::get_Alignment()
+{
+    return alignment;
+}
+
+void gProject::shapes::set_PointSize(int i)
+{
+    textPointSize = i;
+}
+
+int gProject::shapes::get_PointSize()
+{
+    return textPointSize;
+}
+
+void gProject::shapes::set_FontFamily(std::string s)
+{
+    textFontFamily = s;
+}
+
+std::string gProject::shapes::get_FontFamily()
+{
+    return textFontFamily;
+}
+
+void gProject::shapes::set_Text(std::string s)
+{
+    textString = s;
+}
+
+std::string gProject::shapes::get_Text()
+{
+    return textString;
+}
+
+void gProject::shapes::set_FontStyle(QFont::Style s)
+{
+    textFontStyle = s;
+}
+
+QFont::Style gProject::shapes::get_FontStyle()
+{
+    return textFontStyle;
+}
+
+void gProject::shapes::set_FontWeight(QFont::Weight s)
+{
+    textFontWeight = s;
+}
+
+QFont::Weight gProject::shapes::get_FontWeight()
+{
+    return textFontWeight;
+}
+
+void gProject::shapes::set_TextColor(Qt::GlobalColor c)
+{
+    tColor = c;
+}
+
+Qt::GlobalColor gProject::shapes::get_TextColor()
+{
+    return tColor;
+}

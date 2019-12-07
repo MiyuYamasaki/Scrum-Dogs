@@ -70,3 +70,14 @@ FlatCap
 MiterJoin
 magenta
 SolidPattern
+
+8
+Text
+250, 425, 500, 50
+Class Project 2 - 2D Graphics Modeler
+blue
+AlignCenter
+10
+Comic Sans MS
+StyleNormal
+Normal

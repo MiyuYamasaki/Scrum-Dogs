@@ -16,6 +16,7 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
     gProject::shapes* tempShape = nullptr;
     Shape type = LINE;
     Qt::GlobalColor pColor = Qt::black;
+    Qt::GlobalColor tColor = Qt::black;
     int pWidth = 0;
     Qt::PenStyle pStyle = Qt::DotLine;
     Qt::PenCapStyle pcStyle = Qt::FlatCap;
@@ -25,6 +26,12 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
 //    QPoint* oldPoints = nullptr;
     std::vector<QPoint> points;
     vector<gProject::shapes>::iterator last;
+    Qt::AlignmentFlag alignment;
+    std::string textString;
+    int textPointSize;
+    std::string textFontFamily;
+    QFont::Style textFontStyle;
+    QFont::Weight textFontWeight;
     int width = 0, length = 0;
     bool opened = false;
     int x = 0;
@@ -624,6 +631,81 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             (*last).set_brush(bColor, bStyle);
             break;
         case TEXT:
+            points.clear();
+            fin >> x;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            fin >> y;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            points.push_back(QPoint(x, y));
+            fin >> length;
+            fin.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+            fin >> width;
+            fin.clear();
+            getline(fin, trash);
+            fin.clear();
+            getline(fin, temp);
+            textString = temp;
+            getline(fin, temp);
+            for(int i = 0; i < 11; i++)
+                if(temp.compare(colorList[i]) == 0)
+                {
+                    tColor = static_cast<Qt::GlobalColor>(i + 2);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 5; i++)
+                if(temp.compare(textAlignmentList[i]) == 0)
+                {
+                    if(i == 0)
+                        alignment = Qt::AlignLeft;
+                    else if(i == 1)
+                        alignment = Qt::AlignRight;
+                    else if(i == 2)
+                        alignment = Qt::AlignTop;
+                    else if(i == 3)
+                        alignment = Qt::AlignBottom;
+                    else if(i == 4)
+                        alignment = Qt::AlignCenter;
+                    break;
+                }
+            fin >> textPointSize;
+            getline(fin, trash);
+            getline(fin, temp);
+            textFontFamily = temp;
+            getline(fin, temp);
+            for(int i = 0; i < 3; i++)
+                if(temp.compare(textFontStyleList[i]) == 0)
+                {
+                    textFontStyle = static_cast<QFont::Style>(i);
+                    break;
+                }
+            getline(fin, temp);
+            for(int i = 0; i < 4; i++)
+                if(temp.compare(textFontWeightList[i]) == 0)
+                {
+                    if(i == 0)
+                        textFontWeight = QFont::Thin;
+                    else if(i == 1)
+                        textFontWeight = QFont::Light;
+                    else if(i == 2)
+                        textFontWeight = QFont::Normal;
+                    else if(i == 3)
+                        textFontWeight = QFont::Bold;
+                    break;
+                }
+            tempShape = new Text(ra);
+            newVector->push_back(*tempShape);
+            last = newVector->end();
+            last--;
+            (*last).set_ID((shapeID));
+            (*last).set_Rect(QRect(points[0],QSize(width, length)));
+            (*last).set_Text(textString);
+            (*last).set_TextColor(tColor);
+            (*last).set_FontFamily(textFontFamily);
+            (*last).set_Alignment(alignment);
+            (*last).set_PointSize(textPointSize);
+            (*last).set_FontStyle(textFontStyle);
+            (*last).set_FontWeight(textFontWeight);
             break;
         }
     }
