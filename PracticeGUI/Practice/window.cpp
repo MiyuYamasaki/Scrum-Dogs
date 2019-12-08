@@ -8,7 +8,9 @@ const int IdRole = Qt::UserRole;
 //! [0]
 
 //! [1]
+//! Window constructor */
 Window::Window()
+//!< window class creates instances and initializes attributes */
 {
     renderArea = new RenderArea;
 

@@ -3,11 +3,11 @@
 #include "window.h"
 
 #include <QApplication>
-
+//! main */
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    Window w;
+    QApplication a(argc, argv); //!< a object */
+    MainWindow w;
     w.show();
-    return a.exec();
+    return a.exec();		//!< returning drawing*/
 }

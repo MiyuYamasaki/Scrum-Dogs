@@ -1,6 +1,8 @@
 #include "shapes.h"
 #include "renderarea.h"
 
+int gProject::shapes::numShapes = 0;
+
 gProject::shapes::shapes(RenderArea *ra)
 {
     this->ra = ra;
@@ -12,6 +14,15 @@ gProject::shapes::shapes(const shapes& s)
     this->ShapeID = s.ShapeID;
     this->type = s.type;
     this->ra = s.ra;
+    this->outline = s.outline;
+    this->set_points(s.points);
+    this->alignment = s.alignment;
+    this->textString = s.textString;
+    this->textPointSize = s.textPointSize;
+    this->tColor = s.tColor;
+    this->textFontStyle = s.textFontStyle;
+    this->textFontWeight = s.textFontWeight;
+    this->textFontFamily = s.textFontFamily;
     this->pen = s.pen;
     this->brush = s.brush;
 }
@@ -26,6 +37,15 @@ gProject::shapes gProject::shapes::operator= (const shapes& s)
     this->ShapeID = s.ShapeID;
     this->type = s.type;
     this->ra = s.ra;
+    this->outline = s.outline;
+    this->set_points(s.points);
+    this->alignment = s.alignment;
+    this->textString = s.textString;
+    this->textPointSize = s.textPointSize;
+    this->tColor = s.tColor;
+    this->textFontStyle = s.textFontStyle;
+    this->textFontWeight = s.textFontWeight;
+    this->textFontFamily = s.textFontFamily;
     this->pen = s.pen;
     this->brush = s.brush;
     return *this;

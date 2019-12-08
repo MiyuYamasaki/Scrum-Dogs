@@ -21,14 +21,19 @@ static std::string brushStyleList[] = {"SolidPattern", "HorPattern", "VerPattern
 static std::string textAlignmentList[] = {"AlignLeft", "AlignRight", "AlignTop", "AlignBottom", "AlignCenter"};
 static std::string textFontStyleList[] = {"StyleNormal", "StyleItalic", "StyleOblique"};
 static std::string textFontWeightList[] = {"Thin", "Light", "Normal", "Bold"};
-
+/*! ShapeParser class */
 class ShapeParser
+/*! this class will parse the shapes */
 {
     public:
-        ShapeParser();
-        vector<gProject::shapes>* InitializeVector(RenderArea* ra);
+        ShapeParser(); /*!< default constructor */
+    /*! Initializes the shapesParser to default values */
+        vector<gProject::shapes>* InitializeVector(RenderArea* ra); /*!< destructor */
+/*! Initializes the shapesParser */
     private:
-        vector<gProject::shapes>* newVector = nullptr;
+        vector<gProject::shapes>* newVector = nullptr; /*!< newVector */
+    /*! newVector set to nullptr */
+
 };
 
 #endif // SHAPEPARSER_H

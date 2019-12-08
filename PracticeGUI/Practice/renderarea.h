@@ -8,10 +8,12 @@
 #include <shapeparser.h>
 
 class shapes;
+static int numShapes = 0;
 
 class RenderArea : public QWidget
 {
     Q_OBJECT
+
 
 public:
 
@@ -26,8 +28,11 @@ public slots:
     void setBrush(const QBrush &brush);
     void setAntialiased(bool antialiased);
     void setTransformed(bool transformed);
-    void addShape();
-    void deleteShape(gProject::shapes);
+    void addShape(int, std::string, int, std::string, int, int, int, int, int, std::string, int, int, std::string, std::string, int, int);
+    void editShape(int, std::string, int, std::string, int, int, int, int, int, std::string, int, int, std::string, std::string, int, int);
+    void deleteShape(int);
+    gProject::shapes findShape(int);
+    QList<QString> getIDNums();
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;

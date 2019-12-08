@@ -15,7 +15,8 @@ namespace gProject
 {
     class shapes
     {
-        public:
+            public:
+            static int numShapes;
             shapes() { }
             shapes(RenderArea *ra);
             shapes(const shapes&);

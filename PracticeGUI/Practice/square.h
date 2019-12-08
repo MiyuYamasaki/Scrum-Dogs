@@ -4,13 +4,15 @@
 #include <shapes.h>
 
 using namespace gProject;
-
+/* A Square Class */
+/*!  The vector class is a custom container class derived from shapes class.*/
 class Square : public shapes
 {
     public:
-        Square(RenderArea *ra);
-        virtual double get_perimeter();
-        virtual double get_area();
+        Square(RenderArea *ra/**< [in] docs for input parameter ra. */); /*! Alternate constructor renders the area */
+    /*!< alternate constructor */
+        virtual double get_perimeter(); /*!< Gets the perimeter */
+        virtual double get_area();	/*!< Gets the area      */
     private:
 };
 

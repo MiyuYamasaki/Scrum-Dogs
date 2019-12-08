@@ -81,3 +81,25 @@ AlignCenter
 Comic Sans MS
 StyleNormal
 Normal
+
+8
+Text
+250, 425, 500, 50
+
+blue
+AlignCenter
+10
+
+StyleNormal
+Normal
+
+8
+Text
+250, 425, 500, 50
+
+blue
+AlignCenter
+10
+
+StyleNormal
+Normal

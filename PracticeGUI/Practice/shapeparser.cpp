@@ -1,13 +1,23 @@
 #include "shapeparser.h"
 
+//! Constructor */
 ShapeParser::ShapeParser()
+//!< default constructor for ShapeParser */
 {
 }
-
+//! Mutator function */
 vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
+//! Initialiazes vector */
 {
     newVector = new vector<gProject::shapes>;
-    std::ifstream fin("C:\\Users\\gjyam\\OneDrive\\Desktop\\scrum-dogs\\PracticeGUI\\Practice\\shape.txt");
+
+//    QStringList filenames = QFileDialog::getOpenFileNames(nullptr, ("shape.txt"), "C://", "All files (*.*)");
+
+//    std::string current_locale_text = filenames[0].toLocal8Bit().constData();
+
+//    std::ifstream fin(current_locale_text.c_str());
+
+    std::ifstream fin("shape.txt");
     std::ofstream fout;
     std::string trash;
     char trashChar;
@@ -239,7 +249,7 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             for(int i = 0; i < 11; i++)
                 if(temp.compare(colorList[i]) == 0)
                 {
-                    bColor = static_cast<Qt::GlobalColor>(i);
+                    bColor = static_cast<Qt::GlobalColor>(i + 2);
                     break;
                 }
             getline(fin, temp);
@@ -330,7 +340,7 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             for(int i = 0; i < 11; i++)
                 if(temp.compare(colorList[i]) == 0)
                 {
-                    bColor = static_cast<Qt::GlobalColor>(i);
+                    bColor = static_cast<Qt::GlobalColor>(i + 2);
                     break;
                 }
             getline(fin, temp);
@@ -419,7 +429,7 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             for(int i = 0; i < 11; i++)
                 if(temp.compare(colorList[i]) == 0)
                 {
-                    bColor = static_cast<Qt::GlobalColor>(i);
+                    bColor = static_cast<Qt::GlobalColor>(i + 2);
                     break;
                 }
             getline(fin, temp);
@@ -509,7 +519,7 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             for(int i = 0; i < 11; i++)
                 if(temp.compare(colorList[i]) == 0)
                 {
-                    bColor = static_cast<Qt::GlobalColor>(i);
+                    bColor = static_cast<Qt::GlobalColor>(i + 2);
                     break;
                 }
             getline(fin, temp);
@@ -598,7 +608,7 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             for(int i = 0; i < 11; i++)
                 if(temp.compare(colorList[i]) == 0)
                 {
-                    bColor = static_cast<Qt::GlobalColor>(i);
+                    bColor = static_cast<Qt::GlobalColor>(i + 2);
                     break;
                 }
             getline(fin, temp);
@@ -698,6 +708,7 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             last = newVector->end();
             last--;
             (*last).set_ID((shapeID));
+            (*last).set_points(points);
             (*last).set_Rect(QRect(points[0],QSize(width, length)));
             (*last).set_Text(textString);
             (*last).set_TextColor(tColor);
@@ -708,6 +719,7 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             (*last).set_FontWeight(textFontWeight);
             break;
         }
+        gProject::shapes::numShapes++;
     }
 
     fin.close();

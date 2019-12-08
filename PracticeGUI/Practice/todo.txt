@@ -1,11 +1,16 @@
 Things to Do
 
-Valgrind Check
-	Run separate checks on each piece
-		I.E. Running a driver with vector and different manipulations
-Doxygen
-Updated UML
-Login screen
+Most Important to Ian:
+EXTRA CREDIT BOIS
+
+Most Actual Important Stuff:
+Edit Sheps through GUI
+Adding rest of commenting from Nate
+
+Less Important Stuff:
 Testimonials
-	Dialog where reviews can be entered.
-	Stored in text doc
+Contact Us
+Login Screen w/ Admin Rights
+Meeting Minute
+Text File explaining where different parts of the program are for the checklist
+Team Contribution Form
