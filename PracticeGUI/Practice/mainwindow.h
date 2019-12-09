@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <renderarea.h>
+#include <contactus.h>
+#include <testimonialbox.h>
+#include <login.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -66,8 +69,13 @@ private slots:
 
     void on_pushButton_edit_clicked();
 
+    void on_pushButton_contact_clicked();
+
+    void on_pushButton_testim_clicked();
+
 private:
     RenderArea *renderArea;
+    login *newLogin;
     Ui::MainWindow *ui; /*!< private member  */
 /*! ui for the main window  */
 };

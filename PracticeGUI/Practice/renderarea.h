@@ -6,6 +6,7 @@
 #include <QPixmap>
 #include <QWidget>
 #include <shapeparser.h>
+#include <QLabel>
 
 class shapes;
 static int numShapes = 0;

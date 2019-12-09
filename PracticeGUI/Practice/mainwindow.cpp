@@ -1,16 +1,22 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <string>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) /*!< MainWindow constructor  */
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 /*!<  constructing ui from QWidget parent */
 {
-    ui->setupUi(this);
-    renderArea = new RenderArea;
-    renderArea->setGeometry(0,0,1000,500);
-    renderArea->show();
+    newLogin = new login;
+    newLogin->exec();
+    if(newLogin->getClosed())
+    {
+        ui->setupUi(this);
+        renderArea = new RenderArea;
+        renderArea->setGeometry(0,0,1000,500);
+        renderArea->show();
+    }
 }
 
 MainWindow::~MainWindow() /*!< destructor  */
@@ -102,6 +108,7 @@ void MainWindow::on_Font_Weight_ComboBox_activated(int index)
 
 void MainWindow::on_pushButton_clicked()
 {
+    if(newLogin->getAccess())
     renderArea->addShape(ui->Shape_Type_Combo_Box->currentIndex(),
                         ui->Shape_Dim_LineEdit->text().toLocal8Bit().constData(),
                         ui->Pen_Color_ComboBox->currentIndex(),
@@ -118,6 +125,7 @@ void MainWindow::on_pushButton_clicked()
                         ui->Font_Family_LineEdit->text().toLocal8Bit().constData(),
                         ui->Font_Style_ComboBox->currentIndex(),
                         ui->Font_Weight_ComboBox->currentIndex());
+    else QMessageBox::warning(this, "Warning", "Not an Admin");
 }
 
 void MainWindow::on_tabWidget_tabBarClicked(int index)
@@ -137,7 +145,8 @@ void MainWindow::on_Delete_Shape_ComboBox_activated(int index)
 
 void MainWindow::on_pushButton_delete_shape_clicked()
 {
-    renderArea->deleteShape(ui->Delete_Shape_ComboBox->currentIndex());
+    if(newLogin->getAccess())renderArea->deleteShape(ui->Delete_Shape_ComboBox->currentIndex());
+    else QMessageBox::warning(this, "Warning", "Not an Admin");
 }
 
 void MainWindow::on_pushButton_refresh_clicked()
@@ -319,7 +328,8 @@ void MainWindow::on_Delete_Shape_ComboBox_currentIndexChanged(int index)
 
 void MainWindow::on_pushButton_edit_clicked()
 {
-    renderArea->editShape(ui->Delete_Shape_ComboBox->currentIndex(),
+    if(newLogin->getAccess())
+    renderArea->editShape(ui->Delete_Shape_ComboBox->currentIndex() + 1,
                         ui->Shape_Type_Combo_Box->currentIndex(),
                         ui->Shape_Dim_LineEdit->text().toLocal8Bit().constData(),
                         ui->Pen_Color_ComboBox->currentIndex(),
@@ -336,4 +346,17 @@ void MainWindow::on_pushButton_edit_clicked()
                         ui->Font_Family_LineEdit->text().toLocal8Bit().constData(),
                         ui->Font_Style_ComboBox->currentIndex(),
                         ui->Font_Weight_ComboBox->currentIndex());
+    else QMessageBox::warning(this, "Warning", "Not an Admin");
+}
+
+void MainWindow::on_pushButton_contact_clicked()
+{
+    contactUs* temp = new contactUs;
+    temp->show();
+}
+
+void MainWindow::on_pushButton_testim_clicked()
+{
+    testimonialbox temp;
+    temp.exec();
 }

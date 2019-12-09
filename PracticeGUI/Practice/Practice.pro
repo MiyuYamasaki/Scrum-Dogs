@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     circle.cpp \
+    contactus.cpp \
     ellipse.cpp \
     line.cpp \
     login.cpp \
@@ -29,11 +30,13 @@ SOURCES += \
     shapeparser.cpp \
     shapes.cpp \
     square.cpp \
+    testimonialbox.cpp \
     text.cpp \
     window.cpp
 
 HEADERS += \
     circle.h \
+    contactus.h \
     ellipse.h \
     line.h \
     login.h \
@@ -45,12 +48,16 @@ HEADERS += \
     shapeparser.h \
     shapes.h \
     square.h \
+    testimonialbox.h \
     text.h \
     vector.h \
     window.h
 
 FORMS += \
-    mainwindow.ui
+    contactus.ui \
+    login.ui \
+    mainwindow.ui \
+    testimonialbox.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

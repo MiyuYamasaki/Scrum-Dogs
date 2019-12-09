@@ -950,6 +950,7 @@ void RenderArea::paintEvent(QPaintEvent *)
         points = (*first).get_points();
         int size = static_cast<int>(points.size());
         QPoint* arrPoints = new QPoint[size];
+
         switch(shape)
         {
             case LINE:
