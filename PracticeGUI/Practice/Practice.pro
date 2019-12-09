@@ -19,6 +19,7 @@ SOURCES += \
     circle.cpp \
     ellipse.cpp \
     line.cpp \
+    login.cpp \
     main.cpp \
     mainwindow.cpp \
     polygon.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     circle.h \
     ellipse.h \
     line.h \
+    login.h \
     mainwindow.h \
     polygon.h \
     polyline.h \
@@ -54,3 +56,5 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=

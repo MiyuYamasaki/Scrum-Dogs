@@ -5,13 +5,3 @@ Polygon::Polygon(RenderArea *r)
 {
     type = static_cast<Shape>(2);
 }
-
-double Polygon::get_perimeter()
-{
-    return 0;
-}
-
-double Polygon::get_area()
-{
-    return 0;
-}

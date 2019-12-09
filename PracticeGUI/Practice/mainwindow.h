@@ -64,6 +64,8 @@ private slots:
 
     void on_Delete_Shape_ComboBox_currentIndexChanged(int index);
 
+    void on_pushButton_edit_clicked();
+
 private:
     RenderArea *renderArea;
     Ui::MainWindow *ui; /*!< private member  */

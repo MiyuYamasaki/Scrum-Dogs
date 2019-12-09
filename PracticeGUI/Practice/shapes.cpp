@@ -15,6 +15,8 @@ gProject::shapes::shapes(const shapes& s)
     this->type = s.type;
     this->ra = s.ra;
     this->outline = s.outline;
+    this->perimeter = s.perimeter;
+    this->area = s.area;
     this->set_points(s.points);
     this->alignment = s.alignment;
     this->textString = s.textString;
@@ -38,6 +40,8 @@ gProject::shapes gProject::shapes::operator= (const shapes& s)
     this->type = s.type;
     this->ra = s.ra;
     this->outline = s.outline;
+    this->perimeter = s.perimeter;
+    this->area = s.area;
     this->set_points(s.points);
     this->alignment = s.alignment;
     this->textString = s.textString;
@@ -174,4 +178,14 @@ void gProject::shapes::set_TextColor(Qt::GlobalColor c)
 Qt::GlobalColor gProject::shapes::get_TextColor()
 {
     return tColor;
+}
+
+void gProject::shapes::set_Perimeter(double d)
+{
+    perimeter = d;
+}
+
+void gProject::shapes::set_Area(double d)
+{
+    area = d;
 }

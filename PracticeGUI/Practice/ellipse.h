@@ -9,8 +9,8 @@ class Ellipse : public shapes
 {
     public:
         Ellipse(RenderArea *ra);
-        virtual double get_perimeter();
-        virtual double get_area();
+        double get_perimeter();
+        double get_area();
     private:
 };
 

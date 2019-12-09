@@ -126,6 +126,8 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             (*last).set_ID((shapeID));
             (*last).set_points(points);
             (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+            (*last).set_Perimeter(0);
+            (*last).set_Area(0);
             break;
         case POLYLINE:
             points.clear();
@@ -189,6 +191,8 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             (*last).set_ID((shapeID));
             (*last).set_points(points);
             (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+            (*last).set_Perimeter(0);
+            (*last).set_Area(0);
             break;
         case POLYGON:
             points.clear();
@@ -281,6 +285,8 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             (*last).set_points(points);
             (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
             (*last).set_brush(bColor, bStyle);
+            (*last).set_Perimeter(0);
+            (*last).set_Area(0);
             break;
         case RECTANGLE:
             points.clear();
@@ -371,6 +377,8 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             (*last).set_Rect(QRect(points[0],QSize(width, length)));
             (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
             (*last).set_brush(bColor, bStyle);
+            (*last).set_Perimeter((width * 2) + (length * 2));
+            (*last).set_Area(width * length);
             break;
         case SQUARE:
             points.clear();
@@ -460,6 +468,8 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             (*last).set_Rect(QRect(points[0],QSize(width, length)));
             (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
             (*last).set_brush(bColor, bStyle);
+            (*last).set_Perimeter((width * 2) + (length * 2));
+            (*last).set_Area(width * length);
             break;
         case ELLIPSE:
             points.clear();
@@ -550,6 +560,8 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             (*last).set_Rect(QRect(points[0],QSize(width, length)));
             (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
             (*last).set_brush(bColor, bStyle);
+            (*last).set_Perimeter(2 * 3.14 * (((width/2) + (length/2))/2));
+            (*last).set_Area(3.14 * (width/2) * (length/2));
             break;
         case CIRCLE:
             points.clear();
@@ -639,6 +651,8 @@ vector<gProject::shapes>* ShapeParser::InitializeVector(RenderArea* ra)
             (*last).set_Rect(QRect(points[0],QSize(width, length)));
             (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
             (*last).set_brush(bColor, bStyle);
+            (*last).set_Perimeter(2 * 3.14 * (width/2));
+            (*last).set_Area(3.14 * (width/2) * (length/2));
             break;
         case TEXT:
             points.clear();

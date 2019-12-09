@@ -29,7 +29,7 @@ public slots:
     void setAntialiased(bool antialiased);
     void setTransformed(bool transformed);
     void addShape(int, std::string, int, std::string, int, int, int, int, int, std::string, int, int, std::string, std::string, int, int);
-    void editShape(int, std::string, int, std::string, int, int, int, int, int, std::string, int, int, std::string, std::string, int, int);
+    void editShape(int, int, std::string, int, std::string, int, int, int, int, int, std::string, int, int, std::string, std::string, int, int);
     void deleteShape(int);
     gProject::shapes findShape(int);
     QList<QString> getIDNums();

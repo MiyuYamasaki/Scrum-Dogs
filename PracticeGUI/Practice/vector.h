@@ -92,6 +92,11 @@ template<typename Type>
                 ++size_v;               // increase the size (size_v is the number of elements)
             }
 
+            void pop_in(int index, Type d)
+            {
+                elem[index] = d;
+            }
+
             void reserve(int newalloc)
             {
                 // never decrease allocation

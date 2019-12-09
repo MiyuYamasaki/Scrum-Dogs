@@ -11,8 +11,7 @@ Circle::Circle(RenderArea *r)  /*!< alternate constructor */
 double Circle::get_perimeter()  /*!< Getter function */
  /*! Function gets perimeter */
 {
-    if (outline.height() == outline.width()) return 2 * 3.14 * (outline.height() / 2);
-    else return 0;
+    return 2 * 3.14 * (outline.height() / 2);
 }
 
 double Circle::get_area()  /*!< Getter function */

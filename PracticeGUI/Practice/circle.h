@@ -11,9 +11,9 @@ class Circle : public shapes
     public:
         Circle(RenderArea *ra); /*!< alternate constructor */
     /*! alternate constructor renders area */
-        virtual double get_perimeter(); /*!< getter function */
+        double get_perimeter(); /*!< getter function */
     /*! Function gets perimeter */
-        virtual double get_area();	/*!< getter function */
+        double get_area();	/*!< getter function */
     /*! Function gets area */
     private:
 };

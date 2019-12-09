@@ -423,6 +423,7 @@ void RenderArea::addShape(int shapeTypeIndex, std::string shapeDim, int penColor
         ss.ignore(std::numeric_limits<std::streamsize>::max(), ',');
         ss >> width;
         tColor = static_cast<Qt::GlobalColor>(textColorIndex + 2);
+        textString = textS;
         if(alignmentIndex == 0)
             alignment = Qt::AlignLeft;
         else if(alignmentIndex == 1)
@@ -456,12 +457,11 @@ void RenderArea::addShape(int shapeTypeIndex, std::string shapeDim, int penColor
     update();
 }
 
-void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColorIndex, std::string penWidth, int penStyleIndex, int penCapStyleIndex, int penJoinStyleIndex, int brushColorIndex, int brushStyleIndex, std::string textS, int textColorIndex, int alignmentIndex, std::string pointSize, std::string fontFamily, int fontStyleIndex, int fontWeightIndex)
+void RenderArea::editShape(int shapeID, int shapeTypeIndex, std::string shapeDim, int penColorIndex, std::string penWidth, int penStyleIndex, int penCapStyleIndex, int penJoinStyleIndex, int brushColorIndex, int brushStyleIndex, std::string textS, int textColorIndex, int alignmentIndex, std::string pointSize, std::string fontFamily, int fontStyleIndex, int fontWeightIndex)
 {
     std::string trash;
     char trashChar;
     std::string temp;
-    int shapeID = 0;
     gProject::shapes* tempShape = nullptr;
     Shape type = LINE;
     Qt::GlobalColor pColor = Qt::black;
@@ -473,7 +473,8 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
     Qt::GlobalColor bColor = Qt::black;
     Qt::BrushStyle bStyle = Qt::NoBrush;
     std::vector<QPoint> points;
-    vector<gProject::shapes>::iterator last;
+    vector<gProject::shapes>::iterator first = sList->begin();
+    vector<gProject::shapes>::iterator last = sList->end();
     Qt::AlignmentFlag alignment;
     std::string textString;
     int textPointSize;
@@ -485,11 +486,14 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
     int x = 0;
     int y = 0;
     int pos1 = 0;
+    int index = 0;
 
     std::stringstream ss(shapeDim);
-    last = this->sList->end();
-    last--;
-    shapeID = (*last).get_ID() + 1;
+    do{
+        if((*first).get_ID() == shapeID)
+            break;
+        index++;
+    }while(++first != last);
     type = static_cast<Shape>(shapeTypeIndex);
     switch(type)
     {
@@ -520,12 +524,17 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
         else if(penJoinStyleIndex == 2)
             pjStyle = Qt::RoundJoin;
         tempShape = new Line(this);
-        sList->push_back(*tempShape);
-        last = sList->end();
-        last--;
-        (*last).set_ID((shapeID));
-        (*last).set_points(points);
-        (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+        do{
+            if((*first).get_ID() == shapeID)
+            {
+                sList->pop_in(index, *tempShape);
+                (*first).set_ID(shapeID);
+                (*first).set_points(points);
+                (*first).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+                (*first).set_Perimeter(0);
+                (*first).set_Area(0);
+            }
+        }while(++first != last);
         break;
     case POLYLINE:
         points.clear();
@@ -553,12 +562,17 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
         else if(penJoinStyleIndex == 2)
             pjStyle = Qt::RoundJoin;
         tempShape = new Polyline(this);
-        sList->push_back(*tempShape);
-        last = sList->end();
-        last--;
-        (*last).set_ID((shapeID));
-        (*last).set_points(points);
-        (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+        do{
+            if((*first).get_ID() == shapeID)
+            {
+                sList->pop_in(index, *tempShape);
+                (*first).set_ID(shapeID);
+                (*first).set_points(points);
+                (*first).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+                (*first).set_Perimeter(0);
+                (*first).set_Area(0);
+            }
+        }while(++first != last);
         break;
     case POLYGON:
         points.clear();
@@ -602,13 +616,18 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
             break;
         }
         tempShape = new Polygon(this);
-        sList->push_back(*tempShape);
-        last = sList->end();
-        last--;
-        (*last).set_ID((shapeID));
-        (*last).set_points(points);
-        (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
-        (*last).set_brush(bColor, bStyle);
+        do{
+            if((*first).get_ID() == shapeID)
+            {
+                sList->pop_in(index, *tempShape);
+                (*first).set_ID(shapeID);
+                (*first).set_points(points);
+                (*first).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+                (*first).set_brush(bColor, bStyle);
+                (*first).set_Perimeter(0);
+                (*first).set_Area(0);
+            }
+        }while(++first != last);
         break;
     case RECTANGLE:
         points.clear();
@@ -652,13 +671,18 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
             break;
         }
         tempShape = new Rect(this);
-        sList->push_back(*tempShape);
-        last = sList->end();
-        last--;
-        (*last).set_ID((shapeID));
-        (*last).set_Rect(QRect(points[0],QSize(width, length)));
-        (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
-        (*last).set_brush(bColor, bStyle);
+        do{
+            if((*first).get_ID() == shapeID)
+            {
+                sList->pop_in(index, *tempShape);
+                (*first).set_ID(shapeID);
+                (*first).set_Rect(QRect(points[0],QSize(width, length)));
+                (*first).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+                (*first).set_brush(bColor, bStyle);
+                (*first).set_Perimeter((width * 2) + (length * 2));
+                (*first).set_Area(width * length);
+            }
+        }while(++first != last);
         break;
     case SQUARE:
         points.clear();
@@ -701,13 +725,18 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
             break;
         }
         tempShape = new Square(this);
-        sList->push_back(*tempShape);
-        last = sList->end();
-        last--;
-        (*last).set_ID((shapeID));
-        (*last).set_Rect(QRect(points[0],QSize(width, length)));
-        (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
-        (*last).set_brush(bColor, bStyle);
+        do{
+            if((*first).get_ID() == shapeID)
+            {
+                sList->pop_in(index, *tempShape);
+                (*first).set_ID(shapeID);
+                (*first).set_Rect(QRect(points[0],QSize(width, length)));
+                (*first).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+                (*first).set_brush(bColor, bStyle);
+                (*first).set_Perimeter((width * 2) + (length * 2));
+                (*first).set_Area(width * length);
+            }
+        }while(++first != last);
         break;
     case ELLIPSE:
         points.clear();
@@ -751,13 +780,18 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
             break;
         }
         tempShape = new Ellipse(this);
-        sList->push_back(*tempShape);
-        last = sList->end();
-        last--;
-        (*last).set_ID((shapeID));
-        (*last).set_Rect(QRect(points[0],QSize(width, length)));
-        (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
-        (*last).set_brush(bColor, bStyle);
+        do{
+            if((*first).get_ID() == shapeID)
+            {
+                sList->pop_in(index, *tempShape);
+                (*first).set_ID(shapeID);
+                (*first).set_Rect(QRect(points[0],QSize(width, length)));
+                (*first).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+                (*first).set_brush(bColor, bStyle);
+                (*first).set_Perimeter(2 * 3.14 * (((width/2) + (length/2))/2));
+                (*first).set_Area(3.14 * (width/2) * (length/2));
+            }
+        }while(++first != last);
         break;
     case CIRCLE:
         points.clear();
@@ -800,13 +834,18 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
             break;
         }
         tempShape = new Circle(this);
-        sList->push_back(*tempShape);
-        last = sList->end();
-        last--;
-        (*last).set_ID((shapeID));
-        (*last).set_Rect(QRect(points[0],QSize(width, length)));
-        (*last).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
-        (*last).set_brush(bColor, bStyle);
+        do{
+            if((*first).get_ID() == shapeID)
+            {
+                sList->pop_in(index, *tempShape);
+                (*first).set_ID(shapeID);
+                (*first).set_Rect(QRect(points[0],QSize(width, length)));
+                (*first).set_pen(pColor, pWidth, pStyle, pcStyle, pjStyle);
+                (*first).set_brush(bColor, bStyle);
+                (*first).set_Perimeter(2 * 3.14 * (((width/2) + (length/2))/2));
+                (*first).set_Area(3.14 * (width/2) * (length/2));
+            }
+        }while(++first != last);
         break;
     case TEXT:
         points.clear();
@@ -819,6 +858,7 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
         ss.ignore(std::numeric_limits<std::streamsize>::max(), ',');
         ss >> width;
         tColor = static_cast<Qt::GlobalColor>(textColorIndex + 2);
+        textString = textS;
         if(alignmentIndex == 0)
             alignment = Qt::AlignLeft;
         else if(alignmentIndex == 1)
@@ -834,18 +874,21 @@ void RenderArea::editShape(int shapeTypeIndex, std::string shapeDim, int penColo
         textFontStyle = static_cast<QFont::Style>(fontStyleIndex);
         textFontWeight = static_cast<QFont::Weight>(fontWeightIndex);
         tempShape = new Text(this);
-        sList->push_back(*tempShape);
-        last = sList->end();
-        last--;
-        (*last).set_ID((shapeID));
-        (*last).set_Rect(QRect(points[0],QSize(width, length)));
-        (*last).set_Text(textString);
-        (*last).set_TextColor(tColor);
-        (*last).set_FontFamily(textFontFamily);
-        (*last).set_Alignment(alignment);
-        (*last).set_PointSize(textPointSize);
-        (*last).set_FontStyle(textFontStyle);
-        (*last).set_FontWeight(textFontWeight);
+        do{
+            if((*first).get_ID() == shapeID)
+            {
+                sList->pop_in(index, *tempShape);
+                (*first).set_ID(shapeID);
+                (*first).set_Rect(QRect(points[0],QSize(width, length)));
+                (*first).set_Text(textString);
+                (*first).set_TextColor(tColor);
+                (*first).set_FontFamily(textFontFamily);
+                (*first).set_Alignment(alignment);
+                (*first).set_PointSize(textPointSize);
+                (*first).set_FontStyle(textFontStyle);
+                (*first).set_FontWeight(textFontWeight);
+            }
+        }while(++first != last);
         break;
     }
     gProject::shapes::numShapes++;
@@ -974,7 +1017,7 @@ void RenderArea::closeEvent(QCloseEvent *)
     std::ofstream fout;
     std::string temp;
     bool opened = false;
-    fout.open("shape.txt");
+    fout.open("shapesOutput.txt");
     if (fout)
         opened = true;
     vector<gProject::shapes>::iterator first = sList->begin();
@@ -1034,11 +1077,11 @@ void RenderArea::closeEvent(QCloseEvent *)
             else if((*first).get_pen().capStyle() == Qt::RoundCap)
                 fout << "RoundCap" << std::endl;
             if((*first).get_pen().joinStyle() == Qt::MiterJoin)
-                fout << "MiterJoin" << std::endl;
+                fout << "MiterJoin";
             else if((*first).get_pen().joinStyle() == Qt::BevelJoin)
-                fout << "BevelJoin" << std::endl;
+                fout << "BevelJoin";
             else if((*first).get_pen().joinStyle() == Qt::RoundJoin)
-                fout << "RoundJoin" << std::endl;
+                fout << "RoundJoin";
             break;
         case POLYGON:
             do{
@@ -1109,13 +1152,13 @@ void RenderArea::closeEvent(QCloseEvent *)
             else if((*first).get_brush().color() == Qt::yellow)
                 fout << "yellow" << std::endl;
             if((*first).get_brush().style() == Qt::SolidPattern)
-                fout << "SolidPattern" << std::endl;
+                fout << "SolidPattern";
             else if((*first).get_brush().style() == Qt::HorPattern)
-                fout << "HorPattern" << std::endl;
+                fout << "HorPattern";
             else if((*first).get_brush().style() == Qt::VerPattern)
-                fout << "VerPattern" << std::endl;
+                fout << "VerPattern";
             else if((*first).get_brush().style() == Qt::NoBrush)
-                fout << "NoBrush" << std::endl;
+                fout << "NoBrush";
             break;
         case RECTANGLE:
         case SQUARE:
@@ -1188,13 +1231,13 @@ void RenderArea::closeEvent(QCloseEvent *)
             else if((*first).get_brush().color() == Qt::yellow)
                 fout << "yellow" << std::endl;
             if((*first).get_brush().style() == Qt::SolidPattern)
-                fout << "SolidPattern" << std::endl;
+                fout << "SolidPattern";
             else if((*first).get_brush().style() == Qt::HorPattern)
-                fout << "HorPattern" << std::endl;
+                fout << "HorPattern";
             else if((*first).get_brush().style() == Qt::VerPattern)
-                fout << "VerPattern" << std::endl;
+                fout << "VerPattern";
             else if((*first).get_brush().style() == Qt::NoBrush)
-                fout << "NoBrush" << std::endl;
+                fout << "NoBrush";
             break;
         case TEXT:
             fout << (*first).get_Rect().x() << ", " << (*first).get_Rect().y() << ", " << (*first).get_Rect().height() << ", " << (*first).get_Rect().width() << std::endl;
@@ -1240,15 +1283,16 @@ void RenderArea::closeEvent(QCloseEvent *)
             else if((*first).get_FontStyle() == QFont::StyleOblique)
                 fout << "StyleOblique" << std::endl;
             if((*first).get_FontWeight() == QFont::Thin)
-                fout << "Thin" << std::endl;
+                fout << "Thin";
             else if((*first).get_FontWeight() == QFont::Light)
-                fout << "Light" << std::endl;
+                fout << "Light";
             else if((*first).get_FontWeight() == QFont::Normal)
-                fout << "Normal" << std::endl;
+                fout << "Normal";
             else if((*first).get_FontWeight() == QFont::Bold)
-                fout << "Bold" << std::endl;
+                fout << "Bold";
             break;
         }
-        if(++first != last) fout << std::endl;
+        if(++first != last)
+            fout << std::endl;
     }while(first != last);
 }

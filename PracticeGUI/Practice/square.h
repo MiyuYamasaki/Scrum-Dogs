@@ -11,8 +11,8 @@ class Square : public shapes
     public:
         Square(RenderArea *ra/**< [in] docs for input parameter ra. */); /*! Alternate constructor renders the area */
     /*!< alternate constructor */
-        virtual double get_perimeter(); /*!< Gets the perimeter */
-        virtual double get_area();	/*!< Gets the area      */
+        double get_perimeter(); /*!< Gets the perimeter */
+        double get_area();	/*!< Gets the area      */
     private:
 };
 

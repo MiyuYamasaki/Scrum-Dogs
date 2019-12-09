@@ -6,7 +6,6 @@ blue
 DashDotLine
 FlatCap
 MiterJoin
-
 2
 Polyline
 460, 90, 470, 20, 530, 40, 540, 80
@@ -15,7 +14,6 @@ green
 SolidLine
 FlatCap
 MiterJoin
-
 3
 Polygon
 900, 90, 910, 20, 970, 40, 980, 80
@@ -26,7 +24,6 @@ FlatCap
 MiterJoin
 yellow
 SolidPattern
-
 4
 Rectangle
 20, 200, 170, 100
@@ -37,7 +34,6 @@ RoundCap
 RoundJoin
 red
 VerPattern
-
 5
 Square
 250, 150, 200
@@ -48,7 +44,6 @@ RoundCap
 RoundJoin
 blue
 HorPattern
-
 6
 Ellipse
 520, 200, 170, 100
@@ -59,7 +54,6 @@ FlatCap
 MiterJoin
 white
 NoBrush
-
 7
 Circle
 750, 150, 200
@@ -70,7 +64,6 @@ FlatCap
 MiterJoin
 magenta
 SolidPattern
-
 8
 Text
 250, 425, 500, 50
@@ -79,71 +72,5 @@ blue
 AlignCenter
 10
 Comic Sans MS
-StyleNormal
-Normal
-
-8
-Text
-250, 425, 500, 50
-
-blue
-AlignCenter
-10
-
-StyleNormal
-Normal
-
-8
-Text
-250, 425, 500, 50
-
-blue
-AlignCenter
-10
-
-StyleNormal
-Normal
-
-8
-Text
-250, 425, 500, 50
-
-blue
-AlignCenter
-10
-
-StyleNormal
-Normal
-
-8
-Text
-250, 425, 500, 50
-
-blue
-AlignCenter
-10
-
-StyleNormal
-Normal
-
-8
-Text
-250, 425, 500, 50
-
-blue
-AlignCenter
-10
-
-StyleNormal
-Normal
-
-8
-Text
-250, 425, 500, 50
-
-blue
-AlignCenter
-10
-
 StyleNormal
 Normal

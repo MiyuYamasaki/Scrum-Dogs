@@ -47,14 +47,18 @@ namespace gProject
             QFont::Weight get_FontWeight();
             void set_TextColor(Qt::GlobalColor);
             Qt::GlobalColor get_TextColor();
-            virtual double get_perimeter() {return 0;}
-            virtual double get_area() {return 0;}
+            void set_Perimeter(double d);
+            void set_Area(double d);
+            double get_perimeter() {return perimeter;}
+            double get_area() {return area;}
         protected:
             int ShapeID;
             Shape type;
             RenderArea* ra;
             QRect outline;
             std::vector<QPoint> points;
+            double perimeter = 0;
+            double area = 0;
             Qt::AlignmentFlag alignment;
             std::string textString;
             int textPointSize;
