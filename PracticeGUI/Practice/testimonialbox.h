@@ -18,7 +18,8 @@ public:
 //    testimonialbox* uiPtr() {return ui;}
 
 private slots:
-    void on_okbutton_accepted();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::testimonialbox *ui;

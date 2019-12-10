@@ -32,6 +32,7 @@ public slots:
     void addShape(int, std::string, int, std::string, int, int, int, int, int, std::string, int, int, std::string, std::string, int, int);
     void editShape(int, int, std::string, int, std::string, int, int, int, int, int, std::string, int, int, std::string, std::string, int, int);
     void deleteShape(int);
+    vector<gProject::shapes>* getSList();
     gProject::shapes findShape(int);
     QList<QString> getIDNums();
 

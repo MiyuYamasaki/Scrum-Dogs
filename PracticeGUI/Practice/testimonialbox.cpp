@@ -1,6 +1,7 @@
 #include "testimonialbox.h"
 #include "ui_testimonialbox.h"
 #include <QDebug>
+#include <fstream>
 
 testimonialbox::testimonialbox(QWidget *parent) :
     QDialog(parent),
@@ -14,8 +15,12 @@ testimonialbox::~testimonialbox()
     delete ui;
 }
 
-void testimonialbox::on_okbutton_accepted()
+void testimonialbox::on_pushButton_clicked()
 {
-    QString text = ui->testimonialtext->toPlainText();
-    qDebug() << text <<"!!!!!!!";
+    std::string s = ui->lineEdit->text().toLocal8Bit().constData();
+    std::string s2 = ui->lineEdit_2->text().toLocal8Bit().constData();
+
+    std::ofstream fout("testimony.txt");
+    fout << s << " - " << s2;
+    close();
 }

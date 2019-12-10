@@ -1297,3 +1297,8 @@ void RenderArea::closeEvent(QCloseEvent *)
             fout << std::endl;
     }while(first != last);
 }
+
+vector<gProject::shapes>* RenderArea::getSList()
+{
+    return sList;
+}

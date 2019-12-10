@@ -9,14 +9,11 @@ MainWindow::MainWindow(QWidget *parent) /*!< MainWindow constructor  */
 /*!<  constructing ui from QWidget parent */
 {
     newLogin = new login;
-    newLogin->exec();
-    if(newLogin->getClosed())
-    {
-        ui->setupUi(this);
-        renderArea = new RenderArea;
-        renderArea->setGeometry(0,0,1000,500);
-        renderArea->show();
-    }
+    if(!(newLogin->getClosed())) newLogin->exec();
+    ui->setupUi(this);
+    renderArea = new RenderArea;
+    renderArea->setGeometry(0,0,1000,500);
+    renderArea->show();
 }
 
 MainWindow::~MainWindow() /*!< destructor  */
@@ -359,4 +356,471 @@ void MainWindow::on_pushButton_testim_clicked()
 {
     testimonialbox temp;
     temp.exec();
+}
+void MainWindow::displayIdReport(vector<gProject::shapes>* temp, int sort)
+ {
+     int row = 0;
+
+     QWidget* tableDialog = new QWidget();
+     QTableWidget* table = new QTableWidget(13,19,tableDialog);
+     vector<gProject::shapes>::iterator first = temp->begin();
+     vector<gProject::shapes>::iterator last = temp->end();
+
+ do{
+   /////////////////////////////////////////////////////////////////////////////////
+     QTableWidgetItem *iD = new QTableWidgetItem(first->get_ID());
+     QTableWidgetItem *shapeType = new QTableWidgetItem(first->getShape());
+
+     std::string tempCoor = "";
+     if(first->getShape() == LINE || first->getShape() == POLYLINE || first->getShape() == POLYGON || first->getShape() == TEXT)
+     {
+         std::vector<QPoint> tempPointsVec = first->get_points();
+         std::vector<QPoint>::iterator firstCoor = tempPointsVec.begin();
+         std::vector<QPoint>::iterator lastCoor = tempPointsVec.end();
+         do
+         {
+             tempCoor += "(";
+             tempCoor += std::to_string(firstCoor->x());
+             tempCoor += ",";
+             tempCoor += std::to_string(firstCoor->y());
+             tempCoor += ") ";
+             ++firstCoor;
+         }while(firstCoor != lastCoor);
+     }
+     else
+     {
+         tempCoor += "(";
+         tempCoor += std::to_string(first->get_Rect().x());
+         tempCoor += ",";
+         tempCoor += std::to_string(first->get_Rect().y());
+         tempCoor += ") ";
+     }
+
+     QTableWidgetItem *coordinates = new QTableWidgetItem(QString::fromStdString(tempCoor));
+
+     std::string tempAlign;
+     if(first->get_Alignment() == Qt::AlignLeft)
+     {
+         tempAlign = "Align Left";
+     }
+     else if(first->get_Alignment() == Qt::AlignRight)
+     {
+         tempAlign = "Align Right";
+     }
+     else if(first->get_Alignment() == Qt::AlignTop)
+     {
+         tempAlign = "Align Top";
+     }
+     else if(first->get_Alignment() == Qt::AlignBottom)
+     {
+         tempAlign = "Align Bottom";
+     }
+     else if(first->get_Alignment() == Qt::AlignCenter)
+     {
+         tempAlign = "Align Center";
+     }
+     QTableWidgetItem *allignment = new QTableWidgetItem(QString::fromStdString(tempAlign));
+
+     QTableWidgetItem *text = new QTableWidgetItem(QString::fromStdString(first->get_Text()));
+     QTableWidgetItem *ptSize = new QTableWidgetItem(QString::number(first->get_PointSize()));
+
+     std::string tempTextColor;
+     if(first->get_TextColor() == Qt::GlobalColor::red)
+     {
+         tempTextColor = "red";
+     }
+     else if(first->get_TextColor() == Qt::GlobalColor::black)
+     {
+         tempTextColor = "black";
+     }
+     else if(first->get_TextColor() == Qt::GlobalColor::white)
+     {
+         tempTextColor = "white";
+     }
+     else if(first->get_TextColor() == Qt::GlobalColor::darkGray)
+     {
+         tempTextColor = "dark gray";
+     }
+     else if(first->get_TextColor() == Qt::GlobalColor::gray)
+     {
+         tempTextColor = "gray";
+     }
+     else if(first->get_TextColor() == Qt::GlobalColor::lightGray)
+     {
+         tempTextColor = "light gray";
+     }
+     else if(first->get_TextColor() == Qt::GlobalColor::green)
+     {
+         tempTextColor = "greeen";
+     }
+     else if(first->get_TextColor() == Qt::GlobalColor::blue)
+     {
+         tempTextColor = "blue";
+     }
+     else if(first->get_TextColor() == Qt::GlobalColor::cyan)
+     {
+         tempTextColor = "cyan";
+     }
+     else if(first->get_TextColor() == Qt::GlobalColor::magenta)
+     {
+         tempTextColor = "magenta";
+     }
+     else if(first->get_TextColor() == Qt::GlobalColor::yellow)
+     {
+         tempTextColor = "yellow";
+     }
+
+     QTableWidgetItem *textColor = new QTableWidgetItem(QString::fromStdString(tempTextColor));
+
+     std::string tempFontStyle;
+     if(first->get_FontStyle() == QFont::Style::StyleNormal)
+     {
+         tempFontStyle = "Style Normal";
+     }
+     else if(first->get_FontStyle() == QFont::Style::StyleItalic)
+     {
+         tempFontStyle = "Style Italic";
+     }
+     else if(first->get_FontStyle() == QFont::Style::StyleOblique)
+     {
+         tempFontStyle = "Style Oblique";
+     }
+      QTableWidgetItem *fontStyle = new QTableWidgetItem(QString::fromStdString(tempFontStyle));
+
+      std::string fontWeight;
+      if(first->get_FontWeight() == QFont::Weight::Bold)
+      {
+          fontWeight = "Bold";
+      }
+      else if(first->get_FontWeight() == QFont::Weight::Thin)
+      {
+          fontWeight = "Thin";
+      }
+      else if(first->get_FontWeight() == QFont::Weight::Light)
+      {
+          fontWeight = "Light";
+      }
+      else if(first->get_FontWeight() == QFont::Weight::Normal)
+      {
+          fontWeight = "Normal";
+      }
+
+      QTableWidgetItem *fontWeightItem = new QTableWidgetItem(QString::fromStdString(fontWeight));
+
+      QTableWidgetItem *fontFamily = new QTableWidgetItem(QString::fromStdString(first->get_FontFamily()));
+
+      std::string penCap;
+      if(first->get_pen().capStyle() ==  Qt::PenCapStyle::FlatCap)
+      {
+         penCap = "Flat Cap";
+      }
+      else if(first->get_pen().capStyle() ==  Qt::PenCapStyle::SquareCap)
+      {
+          penCap = "Square Cap";
+      }
+      else if(first->get_pen().capStyle() ==  Qt::PenCapStyle::RoundCap)
+      {
+          penCap = "Round Cap";
+      }
+      QTableWidgetItem *penCapStyle = new QTableWidgetItem(QString::fromStdString(penCap));
+
+      std::string penJoin;
+      if(first->get_pen().joinStyle() == Qt::PenJoinStyle::MiterJoin)
+      {
+          penJoin = "Milter Join";
+      }
+      else if(first->get_pen().joinStyle() == Qt::PenJoinStyle::BevelJoin)
+      {
+          penJoin = "Bevel Join";
+      }
+      else if(first->get_pen().joinStyle() == Qt::PenJoinStyle::RoundJoin)
+      {
+          penJoin = "Round Join";
+      }
+
+      QTableWidgetItem *penJoinStyle = new QTableWidgetItem(QString::fromStdString(penJoin));
+
+      std::string penStyle;
+      if(first->get_pen().style() == Qt::PenStyle::SolidLine)
+      {
+          penStyle = "Solid Line";
+      }
+      else if(first->get_pen().style() == Qt::PenStyle::NoPen)
+      {
+          penStyle = "No Pen";
+      }
+      else if(first->get_pen().style() == Qt::PenStyle::DashLine)
+      {
+          penStyle = "Dash Line";
+      }
+      else if(first->get_pen().style() == Qt::PenStyle::DotLine)
+      {
+          penStyle = "Dot Line";
+      }
+      else if(first->get_pen().style() == Qt::PenStyle::DashDotLine)
+      {
+          penStyle = "Dash Dot Line";
+      }
+      else if(first->get_pen().style() == Qt::PenStyle::DashDotDotLine)
+      {
+          penStyle = "Dash Dot Dot Line";
+      }
+      QTableWidgetItem *penStyleItem = new QTableWidgetItem(QString::fromStdString(penStyle));
+
+      std::string penColor;
+      if(first->get_pen().color() == Qt::GlobalColor::gray)
+      {
+          penColor = "Gray";
+      }
+      else if(first->get_pen().color() == Qt::GlobalColor::black)
+      {
+          penColor = "Black";
+      }
+      else if(first->get_pen().color() == Qt::GlobalColor::white)
+      {
+          penColor = "White";
+      }
+      else if(first->get_pen().color() == Qt::GlobalColor::darkGray)
+      {
+          penColor = "Dark Gray";
+      }
+      else if(first->get_pen().color() == Qt::GlobalColor::lightGray)
+      {
+          penColor = "Light Gray";
+      }
+      else if(first->get_pen().color() == Qt::GlobalColor::red)
+      {
+          penColor = "Red";
+      }
+      else if(first->get_pen().color() == Qt::GlobalColor::green)
+      {
+          penColor = "Green";
+      }
+      else if(first->get_pen().color() == Qt::GlobalColor::blue)
+      {
+          penColor = "Blue";
+      }
+      else if(first->get_pen().color() == Qt::GlobalColor::cyan)
+      {
+          penColor = "Cyan";
+      }
+      else if(first->get_pen().color() == Qt::GlobalColor::magenta)
+      {
+          penColor = "Magenta";
+      }
+      else if(first->get_pen().color() == Qt::GlobalColor::yellow)
+      {
+          penColor = "Yellow";
+      }
+      QTableWidgetItem *penColorItem = new QTableWidgetItem(QString::fromStdString(penColor));
+
+      QTableWidgetItem *penWidth = new QTableWidgetItem(QString::number(first->get_pen().width()));
+
+      std::string brushColor;
+
+      if(first->get_brush().color() == Qt::GlobalColor::yellow)
+      {
+          brushColor = "Yellow";
+      }
+      else if(first->get_brush().color() == Qt::GlobalColor::black)
+      {
+          brushColor = "Black";
+      }
+      else if(first->get_brush().color() == Qt::GlobalColor::white)
+      {
+          brushColor = "White";
+      }
+      else if(first->get_brush().color() == Qt::GlobalColor::darkGray)
+      {
+          brushColor = "Dark Gray";
+      }
+      else if(first->get_brush().color() == Qt::GlobalColor::gray)
+      {
+          brushColor = "Gray";
+      }
+      else if(first->get_brush().color() == Qt::GlobalColor::lightGray)
+      {
+          brushColor = "Light Gray";
+      }
+      else if(first->get_brush().color() == Qt::GlobalColor::red)
+      {
+          brushColor = "Red";
+      }
+      else if(first->get_brush().color() == Qt::GlobalColor::green)
+      {
+          brushColor = "Green";
+      }
+      else if(first->get_brush().color() == Qt::GlobalColor::blue)
+      {
+          brushColor = "Blue";
+      }
+      else if(first->get_brush().color() == Qt::GlobalColor::cyan)
+      {
+          brushColor = "Cyan";
+      }
+      else if(first->get_brush().color() == Qt::GlobalColor::magenta)
+      {
+          brushColor = "Magenta";
+      }
+      QTableWidgetItem *brushColorItem = new QTableWidgetItem(QString::fromStdString(brushColor));
+
+      std::string brushStyle;
+      if(first->get_brush().style() == Qt::BrushStyle::SolidPattern)
+      {
+         brushStyle = "Solid Pattern";
+      }
+      else if(first->get_brush().style() == Qt::BrushStyle::HorPattern)
+      {
+          brushStyle = "Hor Pattern";
+      }
+      else if(first->get_brush().style() == Qt::BrushStyle::VerPattern)
+      {
+          brushStyle = "Ver Pattern";
+      }
+      else if(first->get_brush().style() == Qt::BrushStyle::NoBrush)
+      {
+          brushStyle = "No Brush";
+      }
+      QTableWidgetItem *brushStyleItem = new QTableWidgetItem(QString::fromStdString(brushStyle));
+
+      QTableWidgetItem *area = new QTableWidgetItem(QString::number(first->get_area()));
+
+      QTableWidgetItem *perimeter = new QTableWidgetItem(QString::number(first->get_perimeter()));
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+
+    table->setItem(row,0, iD);
+    iD->setText(QString::number(first->get_ID()));
+
+    table->setItem(row, 1, shapeType);
+    if(first->getShape() == 0)
+    {
+       shapeType->setText("Line");
+    }
+    else if(first->getShape() == 1)
+    {
+        shapeType->setText("Polyline");
+    }
+    else if(first->getShape() == 2)
+    {
+        shapeType->setText("Polygon");
+    }
+    else if(first->getShape() == 3)
+    {
+        shapeType->setText("Rectangle");
+    }
+    else if(first->getShape() == 4)
+    {
+        shapeType->setText("Square");
+    }
+    else if(first->getShape() == 5)
+    {
+        shapeType->setText("Ellipse");
+    }
+    else if(first->getShape() == 6)
+    {
+        shapeType->setText("Circle");
+    }
+    else if(first->getShape() == 7)
+    {
+        shapeType->setText("Text");
+    }
+
+
+    table->setItem(row,2, coordinates);
+    coordinates->setText(QString::fromStdString(tempCoor));
+
+    table->setItem(row,3,allignment);
+    allignment->setText(QString::fromStdString(tempAlign));
+
+    table->setItem(row,4, text);
+    text->setText(QString::fromStdString(first->get_Text()));
+
+    table->setItem(row,5,ptSize);
+    ptSize->setText(QString::number(first->get_PointSize()));
+
+    table->setItem(row, 6, textColor);
+    textColor->setText(QString::fromStdString(tempTextColor));
+
+    table->setItem(row, 7, fontStyle);
+    fontStyle->setText(QString::fromStdString(tempFontStyle));
+
+    table->setItem(row, 8, fontWeightItem);
+    fontWeightItem->setText(QString::fromStdString(fontWeight));
+
+    table->setItem(row,9,fontFamily);
+    fontFamily->setText(QString::fromStdString(first->get_FontFamily()));
+
+    table->setItem(row,10, penCapStyle);
+    penCapStyle->setText(QString::fromStdString(penCap));
+
+    table->setItem(row, 11, penJoinStyle);
+    penJoinStyle->setText(QString::fromStdString(penJoin));
+
+    table->setItem(row,12, penStyleItem);
+    penStyleItem->setText(QString::fromStdString(penStyle));
+
+    table->setItem(row,13, penColorItem);
+    penColorItem->setText(QString::fromStdString(penColor));
+
+    table->setItem(row,14, penWidth);
+    penWidth->setText(QString::number(first->get_pen().width()));
+
+    table->setItem(row,15, brushColorItem);
+    brushColorItem->setText(QString::fromStdString(brushColor));
+
+    table->setItem(row,16, brushStyleItem);
+    brushStyleItem->setText(QString::fromStdString(brushStyle));
+
+    table->setItem(row, 17, area);
+    area->setText(QString::number(first->get_area()));
+
+    table->setItem(row, 18, perimeter);
+    perimeter->setText(QString::number(first->get_perimeter()));
+/////////////////////////////////////////////////////////////////////
+    row += 1;
+    ++first;
+
+ }while(first != last);
+
+
+
+
+     table->resize(1500, 800);
+
+     if(sort == 0)
+     {
+     table->sortByColumn(0, Qt::AscendingOrder);
+    }
+     else if(sort == 1)
+     {
+       table->sortByColumn(17, Qt::AscendingOrder);
+     }
+     else if(sort == 2)
+     {
+       table->sortByColumn(18, Qt::AscendingOrder);
+     }
+
+     //table->resizeColumnsToContents();
+     tableDialog->show();
+     //table->show();
+
+
+
+ }
+
+void MainWindow::on_Reports_Id_clicked()
+{
+   displayIdReport(renderArea->getSList(), 0);
+}
+
+void MainWindow::on_Reports_Area_clicked()
+{
+     displayIdReport(renderArea->getSList(), 1);
+}
+
+void MainWindow::on_Reports_Peri_clicked()
+{
+ displayIdReport(renderArea->getSList(), 2);
 }

@@ -1,0 +1,4 @@
+When downloading the project, we have had to turn off shadow build in the QT options and 
+change the directory to point towards the folder with the project files under the projects 
+tab in QT in the run category. Otherwise, the project would create its own copy of the 
+project without the text files and fail to run.

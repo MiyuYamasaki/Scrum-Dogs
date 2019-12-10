@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>564</width>
-    <height>461</height>
+    <width>579</width>
+    <height>501</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -897,13 +897,52 @@
      <string>Testimonials</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="Reports_Id">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>410</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ID Report</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Reports_Peri">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>410</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Peri Report</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Reports_Area">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>410</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Area Report</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>564</width>
+     <width>579</width>
      <height>26</height>
     </rect>
    </property>

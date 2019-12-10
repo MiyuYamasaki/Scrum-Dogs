@@ -6,6 +6,8 @@
 #include <contactus.h>
 #include <testimonialbox.h>
 #include <login.h>
+#include <QTableWidget>
+#include <QTableWidgetItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,6 +22,7 @@ public:
     MainWindow(QWidget *parent = nullptr); /*!< default constructor  */
 /*! parent for QWidget set to nullptr  */
     ~MainWindow(); /*!< destructor  */
+    void displayIdReport(vector<gProject::shapes>* temp, int sort);
 private slots:
     void on_Brush_Color_ComboBox_activated(int index);
 
@@ -72,6 +75,12 @@ private slots:
     void on_pushButton_contact_clicked();
 
     void on_pushButton_testim_clicked();
+
+    void on_Reports_Id_clicked();
+
+    void on_Reports_Area_clicked();
+
+    void on_Reports_Peri_clicked();
 
 private:
     RenderArea *renderArea;

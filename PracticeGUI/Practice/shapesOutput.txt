@@ -1,3 +1,11 @@
+1
+Line
+20, 90, 100, 20
+blue
+2
+DashDotLine
+FlatCap
+MiterJoin
 2
 Polyline
 460, 90, 470, 20, 530, 40, 540, 80
@@ -66,11 +74,3 @@ AlignCenter
 Comic Sans MS
 StyleNormal
 Normal
-9
-Line
-20, 90, 100, 20
-blue
-2
-DashDotLine
-FlatCap
-MiterJoin
