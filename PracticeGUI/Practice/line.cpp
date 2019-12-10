@@ -1,5 +1,7 @@
 #include "line.h"
 
+/*!< alternate constructor */
+/*!  Initializes the type data member*/
 Line::Line(RenderArea *r)
     :gProject::shapes(r)
 {

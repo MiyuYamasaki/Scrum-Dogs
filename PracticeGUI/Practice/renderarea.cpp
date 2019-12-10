@@ -6,6 +6,8 @@
 
 #include <sstream>
 
+/* Alternate Constructor */
+    /*! This is setting up the canvas.*/
 RenderArea::RenderArea(QWidget *parent)
     : QWidget(parent)
 {
@@ -20,40 +22,54 @@ RenderArea::RenderArea(QWidget *parent)
     sList = sp.InitializeVector(this);
 }
 
+/* Sets the size of the canvas area */
+ /*! The minumum size is (1000, 500).*/
 QSize RenderArea::minimumSizeHint() const
 {
     return QSize(1000, 500);
 }
 
+/* This function also sets the size of the canvas area */
+    /*! The minumum size is (1000, 500).*/
 QSize RenderArea::sizeHint() const
 {
     return QSize(1000, 500);
 }
 
+/* Sets the shape and updates the canvas area */
+ /*! The canvas will be updated with the new shape*/
 void RenderArea::setShape(Shape shape)
 {
     this->shape = shape;
     update();
 }
 
+/* Sets the Pen and updates the canvas area */
+ /*! The canvas will be updated with the new Pen value*/
 void RenderArea::setPen(const QPen &pen)
 {
     this->pen = pen;
     update();
 }
 
+/* Sets the Brush and updates the canvas area */
+/*! The canvas will be updated with the new Brush value*/
 void RenderArea::setBrush(const QBrush &brush)
 {
     this->brush = brush;
     update();
 }
 
+/* Sets the antialiased (boolean) and updates the canvas area */
+/*! The canvas will be updated with the new antialiased value*/
 void RenderArea::setAntialiased(bool antialiased)
 {
     this->antialiased = antialiased;
     update();
 }
 
+/* Sets the transformed (boolean) and updates the canvas area */
+ /*! The canvas will be updated with the new transformed value*/
 void RenderArea::setTransformed(bool transformed)
 {
     this->transformed = transformed;
@@ -934,6 +950,8 @@ QList<QString> RenderArea::getIDNums()
     return idNums;
 }
 
+/* This paints the shape onto the canvas */
+/*! The shape will be painted to the canvas with the specified values*/
 void RenderArea::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -1012,7 +1030,8 @@ void RenderArea::paintEvent(QPaintEvent *)
     painter.restore();
 }
 
-
+/* This function writes the data (shape data) to the output file */
+   /*! The output file will be updated with the new values (shapes)*/
 void RenderArea::closeEvent(QCloseEvent *)
 {
     std::ofstream fout;
